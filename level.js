@@ -2,7 +2,7 @@
 class Level {
     constructor(x, y, floorTexture, wallTexture, bgColour) {
         this.x = x;
-        this.y = y
+        this.y = y;
         this.floorTexture = floorTexture;
         this.wallTexture = wallTexture;
         this.bgColour = bgColour;

@@ -1,6 +1,7 @@
 
 //"One I Love You Two I'm Thinking Of You"
 
+//Variable for rovercam
 let rover;
 
 //Images
@@ -13,9 +14,24 @@ let sky;
 let sword;
 let gun;
 
+//Models
+let truck;
+
+//Rotations for flying objects
 let rots = 0;
+
+//Text box display
+let displayTextBox = true;
+let displayAlert = false;
+let alertOpacity = 0;
+
 //Audio
 let footsteps;
+let levelOneMusic;
+let levelTwoMusic;
+
+//Toggle locking player control
+let lockControl = false;
 
 //Counters
 let scriptTimer = 0;
@@ -33,6 +49,8 @@ let backgroundColours = {
   levelOneBg: [255, 0, 150],
   levelTwoBg: [255, 100, 50]
 }
+
+let towerLocations = [];
 
 //Text vibrations
 let textVib1, textVib2, textVib;
@@ -56,10 +74,13 @@ function preload() {
   gliderGirls = loadFont('fonts/glidergirls.ttf');
   script = loadStrings('gamescript.txt');
   footsteps = loadSound('audio/footsteps.mp3');
+  levelOneMusic = loadSound('audio/levelone.mp3')
+  levelTwoMusic = loadSound('audio/leveltwo.mp3')
+  truck = loadModel('models/minitruck.obj');
 }
 
 function setup() {
-  createCanvas(1280, 800, WEBGL);
+  createCanvas(1920, 1080, WEBGL);
   rover = createRoverCam();
   rover.usePointerLock();
   rover.setState({
@@ -69,10 +90,21 @@ function setup() {
     speed: 20
   });
 
+  //Random locations for towers
+  for (let x = 0; x < 10; x++) {
+    for (let z = 0; z < 10; z++) {
+      let arr = [random(-30000, 30000), random(-30000, 30000), random(2000, 20000)];
+      towerLocations.push(arr);
+    }
+  }
+
   //Initial font settings
   textFont(gliderGirls);
   textSize(50);
 
+  fullscreen(true);
+
+  levelOneMusic.play();
 
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg);
@@ -84,7 +116,11 @@ function setup() {
 function draw() {
 
   //Lock the player camera height
+
   rover.position.y = -300;
+
+
+  // rover.position.y -= 10;
 
   noStroke();
 
@@ -99,11 +135,9 @@ function draw() {
   if (frameCount % 400 === 0 && scriptTimer2 < script.length) {
     scriptTimer2 += 2;
   } else if (frameCount % 400 === 0) {
-    scriptTimer2 = 0;
+    displayTextBox = false;
+    displayAlert = true;
   }
-
-
-
 
   if (frameCount % 400 === 0) {
     scriptTimer2++;
@@ -111,7 +145,13 @@ function draw() {
     scriptTimer2 = 0;
   }
 
-
+  if (frameCount % 50 === 0) {
+    if (alertOpacity === 0) {
+      alertOpacity = 255;
+    } else {
+      alertOpacity = 0;
+    }
+  }
 
   //Set sky text vibration
   textVib1 = random(0, 5);
@@ -127,14 +167,21 @@ function draw() {
   drawTowers();
   drawSkyText(skyText[scriptTimer], textVib1, textVib2, textVib3,);
   drawBottomText(script);
+  drawAlert(alertOpacity);
 
+} //End Draw
+
+
+function keyPressed() {
+
+  if (keyCode === 87 || keyCode === 65 || keyCode === 83 || keyCode === 68) {
+    footsteps.play();
+
+  }
+  if (keyCode === 13) {
+    fullscreen(true);
+  }
 }
-
-// function keyPressed() {
-//   if (keyCode === 87 || keyCode === 65 || keyCode === 83 || keyCode === 68) {
-//     footsteps.play();
-//   }
-// }
 
 function keyReleased() {
   if (keyCode === 87 || keyCode === 65 || keyCode === 83 || keyCode === 68) {
@@ -149,6 +196,20 @@ function drawFloor(x, y, tex) {
   texture(tex);
   plane(x, y);
   pop();
+}
+
+function drawAlert(o) {
+  push();
+  if (displayAlert === true) {
+    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+    // fill(255, 239, 213, 200);
+    translate(-500, -300, 0);
+    fill(0, o);
+    text("You're done here,", 100, 0);
+    text("fall through the walls!", 100, 100);
+    pop();
+  }
 }
 
 function drawSkyText(txt, vib1, vib2, vib3) {
@@ -180,15 +241,25 @@ function drawSkyText(txt, vib1, vib2, vib3) {
 }
 
 function drawTowers() {
-  push();
-  translate(100, -700, 6000);;
-  tint(255, 0, 255);
-  texture(juliette);
-  cylinder(600, 5700 + random(0, 10));
-  translate(1500, 0, 0);
-  texture(avery);
-  cylinder(600, 17000);
-  pop();
+  // push();
+  // translate(100, -700, 6000);;
+  // tint(255, 0, 255);
+  // texture(juliette);
+  // cylinder(600, 5700 + random(0, 10));
+  // translate(1500, 0, 0);
+  // texture(avery);
+  // cylinder(600, 17000);
+  // // model(truck);
+  // pop();
+
+  for (let i = 0; i < 100; i++) {
+    push();
+    texture(juliette);
+    translate(towerLocations[i][0], -700, towerLocations[i][1]);
+    box(600, towerLocations[i][2], 600);
+    box(towerLocations[i][2], 10, 60);
+    pop();
+  }
 }
 
 function changeLevels() {
@@ -196,6 +267,9 @@ function changeLevels() {
     rover.position.x = 0;
     rover.position.z = 0;
     levelCounter++;
+    displayAlert = false;
+    levelOneMusic.stop();
+    levelTwoMusic.play();
   }
   if (levelCounter >= 2) {
     levelCounter = 0;
@@ -210,21 +284,24 @@ function changeLevels() {
 
 //Adapted from Mazerunner example linked from the rovercam github page
 function drawBottomText(txt) {
-  push();
-  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-  fill(255, 239, 213, 200);
-  translate(-600, 390, 0);
-  rect(0, -180, 1200, 160);
-  textSize(30);
-  fill(0, 250, 250);
-  text(txt[scriptTimer2], 170, -1 - 120);
-  text(txt[scriptTimer2 + 1], 170, -1 - 60);
-  tint(200, 0, 255);
-  image(rayna, 5, -175, 150, 150);
-  rotateY(radians(-20));
-  image(sword, 900, -545, 150, 650);
-  pop();
+
+  if (displayTextBox === true) {
+    push();
+    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+    fill(255, 239, 213, 200);
+    translate(-600, 390, 0);
+    rect(0, -180, 1200, 160);
+    textSize(30);
+    fill(0, 250, 250);
+    text(txt[scriptTimer2], 170, -1 - 120);
+    text(txt[scriptTimer2 + 1], 170, -1 - 60);
+    tint(200, 0, 255);
+    image(rayna, 5, -175, 150, 150);
+    rotateY(radians(-20));
+    image(sword, 900, -545, 150, 650);
+    pop();
+  }
 }
 
 function drawSkybox(rots) {
