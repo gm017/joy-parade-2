@@ -104,7 +104,7 @@ function setup() {
 
   fullscreen(true);
 
-  levelOneMusic.play();
+  levelOneMusic.loop();
 
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg);
@@ -269,7 +269,7 @@ function changeLevels() {
     levelCounter++;
     displayAlert = false;
     levelOneMusic.stop();
-    levelTwoMusic.play();
+    levelTwoMusic.loop();
   }
   if (levelCounter >= 2) {
     levelCounter = 0;
