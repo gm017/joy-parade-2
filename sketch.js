@@ -13,6 +13,7 @@ let deacon;
 let sky;
 let sword;
 let gun;
+let arm;
 
 //Models
 let truck;
@@ -71,8 +72,9 @@ function preload() {
   sky = loadImage('img/skycircle.png');
   sword = loadImage('img/energysword.png');
   gun = loadImage('img/gun.png');
+  arm = loadImage('img/arm.png');
   gliderGirls = loadFont('fonts/glidergirls.ttf');
-  script = loadStrings('gamescript.txt');
+  script = loadStrings('text/lvl1script.txt');
   footsteps = loadSound('audio/footsteps.mp3');
   levelOneMusic = loadSound('audio/levelone.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
@@ -109,7 +111,9 @@ function setup() {
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg);
   levelTwo = new Level(60000, 60000, flag, deacon, backgroundColours.levelTwoBg);
-}
+
+
+} // END SETUP
 
 
 
@@ -163,20 +167,30 @@ function draw() {
   rots++;
 
   changeLevels();
-  drawSkybox(rots);
+
   drawTowers();
   drawSkyText(skyText[scriptTimer], textVib1, textVib2, textVib3,);
   drawBottomText(script);
   drawAlert(alertOpacity);
+  drawWeapon();
+  drawSkybox(rots);
 
 } //End Draw
 
 
 function keyPressed() {
 
-  if (keyCode === 87 || keyCode === 65 || keyCode === 83 || keyCode === 68) {
-    footsteps.play();
-
+  if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.loop();
+  }
+  if (keyCode === 65 && keyIsDown(87) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.loop();
+  }
+  if (keyCode === 83 && keyIsDown(65) === false && keyIsDown(87) === false && keyIsDown(68) === false) {
+    footsteps.loop();
+  }
+  if (keyCode === 68 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(87) === false) {
+    footsteps.loop();
   }
   if (keyCode === 13) {
     fullscreen(true);
@@ -184,10 +198,20 @@ function keyPressed() {
 }
 
 function keyReleased() {
-  if (keyCode === 87 || keyCode === 65 || keyCode === 83 || keyCode === 68) {
+  if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.stop();
+  }
+  if (keyCode === 65 && keyIsDown(87) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.stop();
+  }
+  if (keyCode === 83 && keyIsDown(65) === false && keyIsDown(87) === false && keyIsDown(68) === false) {
+    footsteps.stop();
+  }
+  if (keyCode === 68 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(87) === false) {
     footsteps.stop();
   }
 }
+
 
 function drawFloor(x, y, tex) {
   push();
@@ -290,7 +314,7 @@ function drawBottomText(txt) {
     camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
     ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
     fill(255, 239, 213, 200);
-    translate(-600, 390, 0);
+    translate(-600, 490, 0);
     rect(0, -180, 1200, 160);
     textSize(30);
     fill(0, 250, 250);
@@ -298,10 +322,19 @@ function drawBottomText(txt) {
     text(txt[scriptTimer2 + 1], 170, -1 - 60);
     tint(200, 0, 255);
     image(rayna, 5, -175, 150, 150);
-    rotateY(radians(-20));
-    image(sword, 900, -545, 150, 650);
     pop();
   }
+}
+
+function drawWeapon() {
+  push();
+  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  translate(-600, 390, 0);
+  tint(200, 0, 255);
+  rotateY(radians(-40));
+  image(arm, 900, -545, 650, 950);
+  pop();
 }
 
 function drawSkybox(rots) {
