@@ -1,6 +1,4 @@
 
-//"One I Love You Two I'm Thinking Of You"
-
 //Variable for rovercam
 let rover;
 
@@ -39,6 +37,8 @@ let scriptTimer = 0;
 let scriptTimer2 = 0;
 let levelCounter = 0;
 
+let weapx = -545;
+
 //Text
 let script;
 let gliderGirls;
@@ -74,7 +74,8 @@ function preload() {
   gun = loadImage('img/gun.png');
   arm = loadImage('img/arm.png');
   gliderGirls = loadFont('fonts/glidergirls.ttf');
-  script = loadStrings('text/lvl1script.txt');
+  script1 = loadStrings('text/lvl1script.txt');
+  script2 = loadStrings('text/lvl1script.txt');
   footsteps = loadSound('audio/footsteps.mp3');
   levelOneMusic = loadSound('audio/levelone.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
@@ -93,18 +94,11 @@ function setup() {
   });
 
   //Random locations for towers
-  for (let x = 0; x < 10; x++) {
-    for (let z = 0; z < 10; z++) {
-      let arr = [random(-30000, 30000), random(-30000, 30000), random(2000, 20000)];
-      towerLocations.push(arr);
-    }
-  }
+  generateTowerLocations();
 
   //Initial font settings
   textFont(gliderGirls);
   textSize(50);
-
-  fullscreen(true);
 
   levelOneMusic.loop();
 
@@ -114,8 +108,6 @@ function setup() {
 
 
 } // END SETUP
-
-
 
 function draw() {
 
@@ -136,7 +128,7 @@ function draw() {
   }
 
   //Timing for changing the bottom text box counter
-  if (frameCount % 400 === 0 && scriptTimer2 < script.length) {
+  if (frameCount % 400 === 0 && scriptTimer2 < script1.length) {
     scriptTimer2 += 2;
   } else if (frameCount % 400 === 0) {
     displayTextBox = false;
@@ -170,13 +162,23 @@ function draw() {
 
   drawTowers();
   drawSkyText(skyText[scriptTimer], textVib1, textVib2, textVib3,);
-  drawBottomText(script);
+  drawBottomText(script1);
   drawAlert(alertOpacity);
   drawWeapon();
-  drawSkybox(rots);
+  drawFloatingObjects(rots);
+  weaponBob(weapx);
 
 } //End Draw
 
+function weaponBob() {
+  if (keyIsDown(87) || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
+    if (frameCount % 25 === 0 && weapx === -545) {
+      weapx += 10;
+    } else if (frameCount % 50 === 0) {
+      weapx -= 10;
+    }
+  }
+}
 
 function keyPressed() {
 
@@ -212,15 +214,6 @@ function keyReleased() {
   }
 }
 
-
-function drawFloor(x, y, tex) {
-  push();
-  // translate(-30050, 0, -20950);
-  rotateX(radians(90));
-  texture(tex);
-  plane(x, y);
-  pop();
-}
 
 function drawAlert(o) {
   push();
@@ -276,11 +269,12 @@ function drawTowers() {
   // // model(truck);
   // pop();
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 50; i++) {
     push();
     texture(juliette);
     translate(towerLocations[i][0], -700, towerLocations[i][1]);
     box(600, towerLocations[i][2], 600);
+    // sphere(towerLocations[i][2] / 10)
     box(towerLocations[i][2], 10, 60);
     pop();
   }
@@ -307,6 +301,7 @@ function changeLevels() {
 }
 
 //Adapted from Mazerunner example linked from the rovercam github page
+//https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
 function drawBottomText(txt) {
 
   if (displayTextBox === true) {
@@ -326,18 +321,7 @@ function drawBottomText(txt) {
   }
 }
 
-function drawWeapon() {
-  push();
-  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-  translate(-600, 390, 0);
-  tint(200, 0, 255);
-  rotateY(radians(-40));
-  image(arm, 900, -545, 650, 950);
-  pop();
-}
-
-function drawSkybox(rots) {
+function drawFloatingObjects(rots) {
   push();
   camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
   ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
@@ -346,11 +330,35 @@ function drawSkybox(rots) {
   rotateX(radians(rots));
   rotateZ(radians(rots));
   rotateY(radians(rots));
-  image(sky, 450, -180, 10, 100);
+  for (let i = 0; i < 10; i++) {
+    image(sky, 450 + (i * 100), -180, 10, 100);
+  }
   rotateZ(radians(- rots));
   rotateY(radians(rots));
   image(sky, 950, -180, 10, 100);
   textSize(30);
   fill(0, 250, 250);
   pop();
+}
+
+function drawWeapon() {
+  push();
+  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  translate(-600, 390, 0);
+  tint(200, 0, 255);
+  rotateY(radians(-40));
+  image(arm, 900, weapx, 650, 950);
+  pop();
+}
+
+
+
+function generateTowerLocations() {
+  for (let x = 0; x < 10; x++) {
+    for (let z = 0; z < 10; z++) {
+      let arr = [random(-30000, 30000), random(-30000, 30000), random(2000, 20000)];
+      towerLocations.push(arr);
+    }
+  }
 }
