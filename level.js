@@ -11,11 +11,10 @@ class Level {
         this.weapon = weapon;
     }
     display() {
-        setTimeout(() => {
-            if (bgOn === true) {
-                background(this.bgColour);
-            }
-        }, 4000);
+
+        background(this.bgColour);
+
+
         push();
         rotateX(radians(90));
         texture(this.floorTexture);
@@ -64,5 +63,4 @@ class Level {
             pop();
         }
     }
-
 }
