@@ -14,6 +14,7 @@ let gun;
 let arm;
 let arch;
 let hammer;
+let julietteText;
 
 //Models
 let truck;
@@ -50,6 +51,7 @@ let weapx = -545;
 let scriptsArr = [];
 let script1;
 let script2;
+let script3;
 let gliderGirls;
 let bottomText;
 let skyText = [["i", "i am", "i'll never"], ["love", "thinking", "let"], ["you", "of you", "you go!"]];
@@ -87,9 +89,11 @@ function preload() {
   arm = loadImage('img/arm.png');
   hammer = loadImage('img/hammer.png');
   arch = loadImage('img/arch.png');
+  julietteText = loadImage('img/julietteText.png');
   gliderGirls = loadFont('fonts/glidergirls.ttf');
   script1 = loadStrings('text/lvl1script.txt');
   script2 = loadStrings('text/lvl2script.txt');
+  script3 = loadStrings('text/lvl3script.txt');
   footsteps = loadSound('audio/footsteps.mp3');
   julietteMonologue = loadSound('audio/juliettemonologue.mp3');
   levelOneMusic = loadSound('audio/levelone.mp3')
@@ -105,10 +109,11 @@ function setup() {
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    speed: 20
+    // speed: 5.6 //True game speed
+    speed: 20 //testing speed
   });
 
-  scriptsArr = [script1, script2];
+  scriptsArr = [script1, script2, script3];
 
   //Random locations for towers
   generateTowerLocations();
@@ -122,7 +127,7 @@ function setup() {
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg);
   levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg);
-  levelThree = new Level(90000, 90000, flag, flag, backgroundColours.levelThreeBg);
+  levelThree = new Level(90000, 90000, flag, arch, backgroundColours.levelThreeBg);
 
 } // END SETUP
 
@@ -140,6 +145,7 @@ function draw() {
 
   noStroke();
 
+
   //Timer for changing the sky text counter
   if (frameCount % 200 === 0 && skyTimer < 2) {
     skyTimer += 1;
@@ -152,7 +158,7 @@ function draw() {
     displayTextBox = false;
     displayAlert = true;
     // rover.position.z += 150;
-  } else if (frameCount % 50 === 0) {
+  } else if (frameCount % 200 === 0) {
     scriptTimer += 2;
     displayTextBox = true;
     displayAlert = false;
@@ -175,14 +181,11 @@ function draw() {
 
   changeLevels();
 
-
-
-  drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
   // drawBottomText(script1);
   drawAlert(alertOpacity);
-  drawWeapon(hammer);
   drawFloatingObjects(rots);
   weaponBob(weapx);
+
 
 } //End Draw
 
@@ -281,6 +284,9 @@ function changeLevels() {
     levelOne.display()
     drawTowers();
     drawBottomText(scriptsArr[levelCounter], rayna);
+    drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
+    drawWeapon(arm);
+
     if (rover.position.x > 30000 || rover.position.x < -30000 || rover.position.z > 30000 || rover.position.z < -30000) {
       rover.position.x = 0;
       rover.position.z = 0;
@@ -295,21 +301,28 @@ function changeLevels() {
     levelTwo.display();
     restrictMovement();
     drawBottomText(scriptsArr[levelCounter], avery);
+    drawWeapon(hammer);
     if (rover.position.z > 30000 || rover.position.z < -30000) {
-
       levelCounter = 2;
-      levelOneMusic.stop();
-      levelTwoMusic.loop();
+      levelTwoMusic.stop();
+      julietteMonologue.play();
       rover.position.x = 0;
       rover.position.z = 0;
-
     }
   }
   if (levelCounter === 2) {
     levelThree.display();
-    lockPlayerHeight = true;
-    displayAlert = false;
-    displayTextBox = true;
+    if (julietteMonologue.isPlaying()) {
+      drawCentreImage(julietteText);
+      scriptTimer = 0;
+    } else {
+      drawBottomText(scriptsArr[levelCounter], avery);
+    }
+    console.log(levelCounter);
+    console.log(scriptTimer);
+    // lockPlayerHeight = true;
+    // displayAlert = false;
+    // displayTextBox = true;
   }
 }
 
@@ -371,6 +384,16 @@ function drawWeapon(weap) {
   pop();
 }
 
+function drawCentreImage(img) {
+  push();
+  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  translate(-600, 390, 0);
+  rotateY(radians(-40));
+  image(img, 10, -900, 1150, 950);
+  pop();
+}
+
 //Generates random positions for the towers that appear in the game
 function generateTowerLocations() {
   for (let x = 0; x < 10; x++) {
@@ -402,8 +425,6 @@ function drawTowers() {
     pop();
   }
 }
-
-
 
 //Restricts the player movement in Level 2 so that they can't walk off the platform
 function restrictMovement() {

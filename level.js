@@ -1,8 +1,8 @@
 //Class to create levels of the game
 class Level {
-    constructor(x, y, floorTexture, wallTexture, bgColour, script, weapon, portrait) {
+    constructor(x, z, floorTexture, wallTexture, bgColour, script, weapon, portrait) {
         this.x = x;
-        this.y = y;
+        this.z = z;
         this.floorTexture = floorTexture;
         this.wallTexture = wallTexture;
         this.bgColour = bgColour;
@@ -18,7 +18,7 @@ class Level {
         push();
         rotateX(radians(90));
         texture(this.floorTexture);
-        plane(this.x, this.y);
+        plane(this.x, this.z);
         pop();
         push();
         translate(0, 0, 30000);
