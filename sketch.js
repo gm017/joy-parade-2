@@ -127,7 +127,7 @@ function setup() {
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg);
   levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg);
-  levelThree = new Level(90000, 90000, flag, arch, backgroundColours.levelThreeBg);
+  levelThree = new Level(190000, 190000, flag, arch, backgroundColours.levelThreeBg);
 
 } // END SETUP
 
