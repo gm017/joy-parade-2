@@ -1,6 +1,6 @@
 //Class to create levels of the game
 class Level {
-    constructor(x, z, floorTexture, wallTexture, bgColour, script, weapon, portrait) {
+    constructor(x, z, floorTexture, wallTexture, bgColour, lvlNum, script, weapon, portrait,) {
         this.x = x;
         this.z = z;
         this.floorTexture = floorTexture;
@@ -9,11 +9,10 @@ class Level {
         this.script = script;
         this.portrait = portrait;
         this.weapon = weapon;
+        this.lvlNum = lvlNum;
     }
     display() {
-
         background(this.bgColour);
-
         push();
         rotateX(radians(90));
         texture(this.floorTexture);
@@ -61,5 +60,20 @@ class Level {
             image(rayna, 5, -175, 150, 150);
             pop();
         }
+    }
+    showLevelNumber() {
+        push();
+        camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+        ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+        fill(0, 0, 213);
+        translate(-950, -350, 0);
+        // rect(0, -180, 165, 90);
+        textSize(30);
+        fill(255);
+        rotateY(radians(rots * 1.5))
+
+        text(this.lvlNum, 30, -1 - 120);
+        pop();
+        console.log(this.lvlNum);
     }
 }

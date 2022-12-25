@@ -144,9 +144,9 @@ function setup() {
   levelOneMusic.loop();
 
   //Create new levels from the Level class
-  levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg);
-  levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg);
-  levelThree = new Level(190000, 190000, flag, arch, backgroundColours.levelThreeBg);
+  levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg, "7 - ONe");
+  levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
+  levelThree = new Level(190000, 190000, flag, arch, backgroundColours.levelThreeBg, "7 - THRee");
 
 } // END SETUP
 
@@ -311,6 +311,7 @@ function changeLevels() {
     drawBottomText(scriptsArr[levelCounter], rayna);
     drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
     drawWeapon(arm);
+    levelOne.showLevelNumber();
 
     if (rover.position.x > 30000 || rover.position.x < -30000 || rover.position.z > 30000 || rover.position.z < -30000) {
       rover.position.x = 0;
@@ -327,6 +328,7 @@ function changeLevels() {
   }
   if (levelCounter === 1) {
     levelTwo.display();
+    levelTwo.showLevelNumber();
     restrictMovement();
     drawBottomText(scriptsArr[levelCounter], avery);
     drawWeapon(hammer);
@@ -350,6 +352,7 @@ function changeLevels() {
   }
   if (levelCounter === 2) {
     levelThree.display();
+    levelThree.showLevelNumber();
     if (julietteMonologue.isPlaying()) {
       drawCentreImage(julietteText);
       scriptTimer = 0;
