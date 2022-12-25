@@ -14,7 +14,6 @@ class Level {
 
         background(this.bgColour);
 
-
         push();
         rotateX(radians(90));
         texture(this.floorTexture);

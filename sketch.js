@@ -152,6 +152,8 @@ function setup() {
 
 function draw() {
 
+
+
   //Lock the player camera height
 
   if (lockPlayerHeight === true) {
@@ -328,13 +330,14 @@ function changeLevels() {
     restrictMovement();
     drawBottomText(scriptsArr[levelCounter], avery);
     drawWeapon(hammer);
-    console.log(rover.position.y);
     if (rover.position.z > 30000 && rover.position.y > -10000 || rover.position.z < -30000 && rover.position.y > -10000) {
       flyPlayer();
     }
     if (rover.position.z > 30000 && rover.position.y < -10000 || rover.position.z < -30000 && rover.position.y < -10000) {
       levelCounter = 2;
       alertsCount += 2;
+      scriptCount = 2;
+      scriptTimer = 0;
       lockPlayerHeight = true;
       levelTwoMusic.stop();
       julietteMonologue.play();
@@ -372,7 +375,8 @@ function drawBottomText(txt, portrait) {
     translate(-600, 490, 0);
     rect(0, -180, 1200, 160);
     textSize(30);
-    fill(0, 250, 250);
+    // fill(0, 250, 250);
+    fill(0);
     text(txt[scriptTimer], 170, -1 - 120);
     text(txt[scriptTimer + 1], 170, -1 - 60);
     tint(200, 0, 255);
