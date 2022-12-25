@@ -34,6 +34,7 @@ let footsteps;
 let julietteMonologue;
 let levelOneMusic;
 let levelTwoMusic;
+let levelThreeMusic;
 
 //Toggle locking player control
 let lockControl = false;
@@ -98,6 +99,7 @@ function preload() {
   julietteMonologue = loadSound('audio/juliettemonologue.mp3');
   levelOneMusic = loadSound('audio/levelone.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
+  levelThreeMusic = loadSound('audio/levelthree.mp3')
   truck = loadModel('models/minitruck.obj');
 }
 
@@ -308,6 +310,9 @@ function changeLevels() {
       julietteMonologue.play();
       rover.position.x = 0;
       rover.position.z = 0;
+      setTimeout(() => {
+        levelThreeMusic.loop();
+      }, 51000)
     }
   }
   if (levelCounter === 2) {
