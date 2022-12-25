@@ -25,7 +25,7 @@ let rots = 0;
 //Text box display
 let displayTextBox = true;
 let displayAlert = false;
-let alertOpacity = 0;
+let alertOpacity = 255;
 
 let playerHeight = -300;
 
@@ -45,6 +45,8 @@ let skyTimer = 0;
 let scriptTimer = 0;
 let levelCounter = 0;
 let scriptCount = 0;
+let alertsCount = 0;
+let alertColCount = 0;
 
 let weapx = -545;
 
@@ -55,6 +57,7 @@ let script2;
 let script3;
 let gliderGirls;
 let bottomText;
+let alerts = [];
 let skyText = [["i", "i am", "i'll never"], ["love", "thinking", "let"], ["you", "of you", "you go!"]];
 
 
@@ -64,6 +67,12 @@ let backgroundColours = {
   levelTwoBg: [255, 100, 50],
   levelThreeBg: [0, 0, 20]
 }
+
+
+
+//Alert text colours
+let alertColours = [];
+let alertColOne, alertColTwo, alertColThree;
 
 let towerLocations = [];
 
@@ -95,6 +104,7 @@ function preload() {
   script1 = loadStrings('text/lvl1script.txt');
   script2 = loadStrings('text/lvl2script.txt');
   script3 = loadStrings('text/lvl3script.txt');
+  alerts = loadStrings('text/alerts.txt');
   footsteps = loadSound('audio/footsteps.mp3');
   julietteMonologue = loadSound('audio/juliettemonologue.mp3');
   levelOneMusic = loadSound('audio/levelone.mp3')
@@ -116,6 +126,13 @@ function setup() {
   });
 
   scriptsArr = [script1, script2, script3];
+  alertColOne = color(0, alertOpacity);
+  alertColTwo = color(0, 0, 255, alertOpacity);
+  alertColThree = color(255, 0, 0, alertOpacity);
+  alertColours = [alertColOne, alertColTwo, alertColThree];
+
+  console.log(alertColOne);
+  console.log(alertColours[alertColCount]);
 
   //Random locations for towers
   generateTowerLocations();
@@ -184,10 +201,9 @@ function draw() {
   changeLevels();
 
   // drawBottomText(script1);
-  drawAlert(alertOpacity);
+  drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
   drawFloatingObjects(rots);
   weaponBob(weapx);
-
 
 } //End Draw
 
@@ -235,19 +251,24 @@ function keyReleased() {
   }
 }
 
+function drawAlert(col, opac, txt1, txt2) {
 
-function drawAlert(o) {
   push();
+  // let alert1 = txt1;
+  // let alert2 = txt2;
+  // let alertCol = col;
+
   if (displayAlert === true) {
     camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
     ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
     // fill(255, 239, 213, 200);
     translate(-500, -300, 0);
-    fill(0, o);
-    text("You're done here,", 100, 0);
-    text("fall through the walls!", 100, 100);
-    pop();
+    fill(col);
+    text(txt1, 100, 0);
+    text(txt2, 100, 100);
   }
+  pop();
+
 }
 
 function drawSkyText(txt, vib1, vib2, vib3) {
@@ -293,6 +314,9 @@ function changeLevels() {
       rover.position.x = 0;
       rover.position.z = 0;
       levelCounter++;
+      displayAlert = false;
+      alertsCount += 2;
+      alertColCount++;
       levelOneMusic.stop();
       levelTwoMusic.loop();
       scriptCount = 1;
@@ -304,8 +328,14 @@ function changeLevels() {
     restrictMovement();
     drawBottomText(scriptsArr[levelCounter], avery);
     drawWeapon(hammer);
-    if (rover.position.z > 30000 || rover.position.z < -30000) {
+    console.log(rover.position.y);
+    if (rover.position.z > 30000 && rover.position.y > -10000 || rover.position.z < -30000 && rover.position.y > -10000) {
+      flyPlayer();
+    }
+    if (rover.position.z > 30000 && rover.position.y < -10000 || rover.position.z < -30000 && rover.position.y < -10000) {
       levelCounter = 2;
+      alertsCount += 2;
+      lockPlayerHeight = true;
       levelTwoMusic.stop();
       julietteMonologue.play();
       rover.position.x = 0;
@@ -323,8 +353,7 @@ function changeLevels() {
     } else {
       drawBottomText(scriptsArr[levelCounter], avery);
     }
-    console.log(levelCounter);
-    console.log(scriptTimer);
+
     // lockPlayerHeight = true;
     // displayAlert = false;
     // displayTextBox = true;
