@@ -128,8 +128,8 @@ function setup() {
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    // speed: 5.6 //True game speed
-    speed: 20 //testing speed
+    speed: 5.6 //True game speed
+    // speed: 20 //testing speed
   });
 
   scriptsArr = [script1, script2, script3];
