@@ -69,7 +69,6 @@ let backgroundColours = {
 }
 
 
-
 //Alert text colours
 let alertColours = [];
 let alertColOne, alertColTwo, alertColThree;
@@ -151,7 +150,8 @@ function setup() {
 } // END SETUP
 
 function draw() {
-
+  noStroke();
+  rots++;
 
 
   //Lock the player camera height
@@ -160,11 +160,6 @@ function draw() {
     rover.position.y = -300;
   }
 
-  // flyPlayer();
-
-  // rover.position.y -= 10;
-
-  noStroke();
 
 
   //Timer for changing the sky text counter
@@ -196,9 +191,8 @@ function draw() {
   vibrateSkyText();
 
 
-  fill(255, 0, 0);
+  // fill(255, 0, 0);
 
-  rots++;
 
   changeLevels();
 
