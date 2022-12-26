@@ -13,6 +13,7 @@ let sword;
 let gun;
 let arm;
 let arch;
+let deaconClear;
 let hammer;
 let julietteText;
 
@@ -89,7 +90,8 @@ let bgOn = true;
 function preload() {
   floor = loadImage('img/floor.jpg');
   flag = loadImage('img/flag.jpg');
-  juliette = loadImage('img/juliette.png');
+  juliette = loadImage('img/juliette-nobg.png');
+  deaconClear = loadImage('img/deacon-nobg.png');
   avery = loadImage('img/avery.png');
   rayna = loadImage('img/rayna.png');
   deacon = loadImage('img/deacon.jpg');
@@ -211,47 +213,11 @@ function weaponBob() {
   }
 }
 
-function keyPressed() {
 
-  if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
-    footsteps.loop();
-  }
-  if (keyCode === 65 && keyIsDown(87) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
-    footsteps.loop();
-  }
-  if (keyCode === 83 && keyIsDown(65) === false && keyIsDown(87) === false && keyIsDown(68) === false) {
-    footsteps.loop();
-  }
-  if (keyCode === 68 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(87) === false) {
-    footsteps.loop();
-  }
-  if (keyCode === 13) {
-    fullscreen(true);
-  }
-}
-
-function keyReleased() {
-  if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
-    footsteps.stop();
-  }
-  if (keyCode === 65 && keyIsDown(87) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
-    footsteps.stop();
-  }
-  if (keyCode === 83 && keyIsDown(65) === false && keyIsDown(87) === false && keyIsDown(68) === false) {
-    footsteps.stop();
-  }
-  if (keyCode === 68 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(87) === false) {
-    footsteps.stop();
-  }
-}
 
 function drawAlert(col, opac, txt1, txt2) {
 
   push();
-  // let alert1 = txt1;
-  // let alert2 = txt2;
-  // let alertCol = col;
-
   if (displayAlert === true) {
     camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
     ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
@@ -264,42 +230,6 @@ function drawAlert(col, opac, txt1, txt2) {
   pop();
 
 }
-
-function drawSkyText(txt, vib1, vib2, vib3) {
-
-  if (frameCount % 200 === 0 && skyTimer < 2) {
-    skyTimer += 1;
-  } else if (frameCount % 200 === 0) {
-    skyTimer = 0;
-  }
-
-  push();
-  fill(0, 255, 0);
-  push();
-  translate(rover.position.x, rover.position.y - 50, rover.position.z + 100);
-  rotateX(radians(90));
-  rotateY(radians(180));
-  text(txt[0], 0, 0 + vib1)
-
-  pop();
-
-  push();
-  translate(rover.position.x, rover.position.y - 50, rover.position.z - 100);
-  rotateX(radians(90));
-  rotateZ(radians(90));
-  rotateY(radians(180));
-  text(txt[1], 0, 0 + vib2)
-  pop();
-
-  push();
-  translate(rover.position.x + 200, rover.position.y - 50, rover.position.z + 200);
-  rotateX(radians(90));
-  rotateY(radians(180));
-  text(txt[2], 0, 0 + vib3)
-  pop();
-  pop();
-}
-
 
 
 //Controls the level progression system
@@ -400,7 +330,7 @@ function drawFloatingObjects(rots) {
   rotateZ(radians(rots));
   rotateY(radians(rots));
   for (let i = 0; i < 10; i++) {
-    image(sky, 450 + (i * 100), -180, 10, 100);
+    image(sky, 450 + (i * rots / 100), -180, 10, 100);
   }
   rotateZ(radians(- rots));
   rotateY(radians(rots));
@@ -458,9 +388,13 @@ function drawTowers() {
 
   for (let i = 0; i < 50; i++) {
     push();
-    texture(juliette);
+    texture(deaconClear);
     translate(towerLocations[i][0], -700, towerLocations[i][1]);
-    box(600, towerLocations[i][2], 600);
+    plane(600, towerLocations[i][2] / 20);
+    texture(juliette);
+    translate(100, 100, -100);
+    plane(600, towerLocations[i][2] / 20);
+    translate(0, 100, 0);
     box(towerLocations[i][2], 10, 60);
     pop();
   }
@@ -482,9 +416,78 @@ function flyPlayer() {
   rover.position.y -= 10;
 }
 
+function drawSkyText(txt, vib1, vib2, vib3) {
+
+  if (frameCount % 200 === 0 && skyTimer < 2) {
+    skyTimer += 1;
+  } else if (frameCount % 200 === 0) {
+    skyTimer = 0;
+  }
+
+  push();
+  fill(0, 255, 0);
+  push();
+  translate(rover.position.x, rover.position.y - 50, rover.position.z + 100);
+  rotateX(radians(90));
+  rotateY(radians(180));
+  text(txt[0], 0, 0 + vib1);
+  pop();
+
+  push();
+  translate(rover.position.x, rover.position.y - 50, rover.position.z - 100);
+  rotateX(radians(90));
+  rotateZ(radians(90));
+  rotateY(radians(180));
+  text(txt[1], 0, 0 + vib2);
+  pop();
+
+  push();
+  translate(rover.position.x + 200, rover.position.y - 50, rover.position.z + 200);
+  rotateX(radians(90));
+  rotateY(radians(180));
+  text(txt[2], 0, 0 + vib3);
+  pop();
+  pop();
+}
+
+
 //Set Sky text vibration
 function vibrateSkyText() {
   textVib1 = random(0, 5);
   textVib2 = random(0, 3);
   textVib3 = random(0, 2);
+}
+
+function keyPressed() {
+
+  if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.loop();
+  }
+  if (keyCode === 65 && keyIsDown(87) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.loop();
+  }
+  if (keyCode === 83 && keyIsDown(65) === false && keyIsDown(87) === false && keyIsDown(68) === false) {
+    footsteps.loop();
+  }
+  if (keyCode === 68 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(87) === false) {
+    footsteps.loop();
+  }
+  if (keyCode === 13) {
+    fullscreen(true);
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.stop();
+  }
+  if (keyCode === 65 && keyIsDown(87) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
+    footsteps.stop();
+  }
+  if (keyCode === 83 && keyIsDown(65) === false && keyIsDown(87) === false && keyIsDown(68) === false) {
+    footsteps.stop();
+  }
+  if (keyCode === 68 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(87) === false) {
+    footsteps.stop();
+  }
 }
