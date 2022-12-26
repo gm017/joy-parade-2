@@ -260,16 +260,18 @@ function changeLevels() {
     levelOne.showLevelNumber();
 
     if (rover.position.x > 30000 || rover.position.x < -30000 || rover.position.z > 30000 || rover.position.z < -30000) {
-      rover.position.x = 0;
-      rover.position.z = 0;
-      levelCounter++;
-      displayAlert = false;
-      alertsCount += 2;
-      alertColCount++;
-      levelOneMusic.stop();
-      levelTwoMusic.loop();
-      scriptCount = 1;
-      scriptTimer = 0;
+      if (displayAlert === true) {
+        rover.position.x = 0;
+        rover.position.z = 0;
+        levelCounter++;
+        displayAlert = false;
+        alertsCount += 2;
+        alertColCount++;
+        levelOneMusic.stop();
+        levelTwoMusic.loop();
+        scriptCount = 1;
+        scriptTimer = 0;
+      }
     }
   }
   if (levelCounter === 1) {
@@ -280,7 +282,9 @@ function changeLevels() {
     drawBottomText(scriptsArr[levelCounter], avery);
     drawWeapon(hammer);
     if (rover.position.z > 30000 && rover.position.y > -10000 || rover.position.z < -30000 && rover.position.y > -10000) {
-      flyPlayer();
+      if (displayAlert === true) {
+        flyPlayer();
+      }
     }
     if (rover.position.z > 30000 && rover.position.y < -10000 || rover.position.z < -30000 && rover.position.y < -10000) {
       levelCounter = 2;
