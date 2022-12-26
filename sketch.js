@@ -35,6 +35,7 @@ let julietteMonologue;
 let levelOneMusic;
 let levelTwoMusic;
 let levelThreeMusic;
+let textChange;
 
 //Toggle locking player control
 let lockControl = false;
@@ -109,6 +110,8 @@ function preload() {
   levelOneMusic = loadSound('audio/levelone.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
   levelThreeMusic = loadSound('audio/levelthree.mp3')
+  levelTwoMusic = loadSound('audio/leveltwo.mp3')
+  textChange = loadSound('audio/textchange.wav')
   truck = loadModel('models/minitruck.obj');
 }
 
@@ -160,22 +163,17 @@ function draw() {
     rover.position.y = -300;
   }
 
-
-
   //Timer for changing the sky text counter
-  if (frameCount % 200 === 0 && skyTimer < 2) {
-    skyTimer += 1;
-  } else if (frameCount % 200 === 0) {
-    skyTimer = 0;
-  }
+
 
   //Timing for changing the bottom text box counter
   if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
     displayTextBox = false;
     displayAlert = true;
     // rover.position.z += 150;
-  } else if (frameCount % 200 === 0) {
+  } else if (frameCount % 200 === 0 && julietteMonologue.isPlaying() === false) {
     scriptTimer += 2;
+    textChange.play();
     displayTextBox = true;
     displayAlert = false;
   }
@@ -268,6 +266,13 @@ function drawAlert(col, opac, txt1, txt2) {
 }
 
 function drawSkyText(txt, vib1, vib2, vib3) {
+
+  if (frameCount % 200 === 0 && skyTimer < 2) {
+    skyTimer += 1;
+  } else if (frameCount % 200 === 0) {
+    skyTimer = 0;
+  }
+
   push();
   fill(0, 255, 0);
   push();
