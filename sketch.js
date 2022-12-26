@@ -23,6 +23,9 @@ let truck;
 //Rotations for flying objects
 let rots = 0;
 
+//Height for floating images
+let imgHeight;
+
 //Text box display
 let displayTextBox = true;
 let displayAlert = false;
@@ -152,11 +155,25 @@ function setup() {
   levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flag, arch, backgroundColours.levelThreeBg, "7 - THRee");
 
+
+  imgHeight = 700;
+
 } // END SETUP
 
 function draw() {
   noStroke();
   rots++;
+
+
+  if (imgHeight <= 700) {
+    imgHeight -= 5;
+  }
+  if (imgHeight <= -7000) {
+    imgHeight = 700;
+  }
+
+
+  console.log(imgHeight);
 
 
   //Lock the player camera height
@@ -236,7 +253,7 @@ function drawAlert(col, opac, txt1, txt2) {
 function changeLevels() {
   if (levelCounter === 0) {
     levelOne.display()
-    drawTowers();
+    drawTowers(deaconClear, juliette);
     drawBottomText(scriptsArr[levelCounter], rayna);
     drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
     drawWeapon(arm);
@@ -257,6 +274,7 @@ function changeLevels() {
   }
   if (levelCounter === 1) {
     levelTwo.display();
+    drawTowers(rayna, flag);
     levelTwo.showLevelNumber();
     restrictMovement();
     drawBottomText(scriptsArr[levelCounter], avery);
@@ -374,7 +392,7 @@ function generateTowerLocations() {
   }
 }
 
-function drawTowers() {
+function drawTowers(img1, img2) {
   // push();
   // translate(100, -700, 6000);;
   // tint(255, 0, 255);
@@ -388,10 +406,10 @@ function drawTowers() {
 
   for (let i = 0; i < 50; i++) {
     push();
-    texture(deaconClear);
-    translate(towerLocations[i][0], -700, towerLocations[i][1]);
+    texture(img1);
+    translate(towerLocations[i][0], imgHeight, towerLocations[i][1]);
     plane(600, towerLocations[i][2] / 20);
-    texture(juliette);
+    texture(img2);
     translate(100, 100, -100);
     plane(600, towerLocations[i][2] / 20);
     translate(0, 100, 0);
