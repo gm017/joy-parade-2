@@ -220,34 +220,6 @@ function draw() {
 
 } //End Draw
 
-function weaponBob() {
-  if (keyIsDown(87) || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
-    if (frameCount % 25 === 0 && weapx === -545) {
-      weapx += 10;
-    } else if (frameCount % 50 === 0) {
-      weapx -= 10;
-    }
-  }
-}
-
-
-
-function drawAlert(col, opac, txt1, txt2) {
-
-  push();
-  if (displayAlert === true) {
-    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-    // fill(255, 239, 213, 200);
-    translate(-500, -300, 0);
-    fill(col);
-    text(txt1, 100, 0);
-    text(txt2, 100, 100);
-  }
-  pop();
-
-}
-
 
 //Controls the level progression system
 function changeLevels() {
@@ -316,6 +288,36 @@ function changeLevels() {
     // displayTextBox = true;
   }
 }
+
+
+function weaponBob() {
+  if (keyIsDown(87) || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
+    if (frameCount % 25 === 0 && weapx === -545) {
+      weapx += 10;
+    } else if (frameCount % 50 === 0) {
+      weapx -= 10;
+    }
+  }
+}
+
+
+
+function drawAlert(col, opac, txt1, txt2) {
+
+  push();
+  if (displayAlert === true) {
+    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+    // fill(255, 239, 213, 200);
+    translate(-500, -300, 0);
+    fill(col);
+    text(txt1, 100, 0);
+    text(txt2, 100, 100);
+  }
+  pop();
+
+}
+
 
 //Displays the text box and portrait at the bottom of the screen
 //Adapted from Mazerunner example linked from the rovercam github page
