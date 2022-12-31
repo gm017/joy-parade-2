@@ -11,6 +11,9 @@ let avery;
 let deacon;
 let sky;
 let sword;
+let rayna;
+let raynaFilter;
+let kingfisher;
 let gun;
 let arm;
 let arch;
@@ -49,8 +52,8 @@ let lockPlayerHeight = true;
 //Counters
 let skyTimer = 0;
 let scriptTimer = 0;
-let levelCounter = 0;
-let scriptCount = 0;
+let levelCounter = 3;
+let scriptCount = 3;
 let alertsCount = 0;
 let alertColCount = 0;
 
@@ -101,13 +104,15 @@ function preload() {
   deaconClear = loadImage('img/deacon-nobg-filter.png');
   avery = loadImage('img/avery.png');
   rayna = loadImage('img/rayna.png');
+  raynaFilter = loadImage('img/rayna-filter.png');
   deacon = loadImage('img/deacon.jpg');
   sky = loadImage('img/skycircle.png');
   sword = loadImage('img/energysword.png');
   gun = loadImage('img/gun.png');
   arm = loadImage('img/arm-filter.png');
   santosHand = loadImage('img/santos-hand.png');
-  hammer = loadImage('img/hammer.png');
+  hammer = loadImage('img/hammer-filter.png');
+  kingfisher = loadImage('img/kingfisher-filter.png');
   arch = loadImage('img/arch.png');
   towerFloor = loadImage('img/tower-floor.png');
   julietteText = loadImage('img/julietteText.png');
@@ -115,6 +120,7 @@ function preload() {
   script1 = loadStrings('text/lvl1script.txt');
   script2 = loadStrings('text/lvl2script.txt');
   script3 = loadStrings('text/lvl3script.txt');
+  script4 = loadStrings('text/lvl4script.txt');
   alerts = loadStrings('text/alerts.txt');
   footsteps = loadSound('audio/footsteps.mp3');
   julietteMonologue = loadSound('audio/juliettemonologue.mp3');
@@ -137,7 +143,7 @@ function setup() {
     // speed: 20 //testing speed
   });
 
-  scriptsArr = [script1, script2, script3];
+  scriptsArr = [script1, script2, script3, script4];
   alertColOne = color(0, alertOpacity);
   alertColTwo = color(0, 0, 255, alertOpacity);
   alertColThree = color(255, 0, 0, alertOpacity);
@@ -346,7 +352,7 @@ function drawImgs(img1, img2) {
     texture(img2);
     translate(1500, 100, -400);
     plane(4600, imageLocs[i][2] / 2.5);
-    translate(0, 100, 0);
+    translate(0, 100, 1700);
     push();
     rotateX(radians(imgHeight / 20));
     rotateZ(radians(imgHeight / 20));

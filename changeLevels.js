@@ -26,7 +26,7 @@ function changeLevels() {
 
     if (levelCounter === 1) {
         levelTwo.display();
-        drawImgs(rayna, flag);
+        drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
         restrictMovement();
         drawBottomText(scriptsArr[levelCounter], avery);
@@ -67,7 +67,34 @@ function changeLevels() {
         // displayTextBox = true;
     }
     if (levelCounter === 3) {
+
+
         levelFour.display();
+        push();
+        translate(0, -2700, 9000);
+        rotateZ(radians(rots / 2));
+        rotateX(radians(rots));
+        texture(flagFilter);
+        sphere(3500);
+        pop();
+        push();
+        translate(0, -2700, -9000);
+        rotateZ(radians(rots / 2));
+        rotateX(radians(rots));
+        texture(kingfisher);
+        sphere(3500);
+        pop();
+
+
+
         levelFour.showLevelNumber();
+
+
+        drawBottomText(scriptsArr[levelCounter], juliette);
+        drawWeapon(arm);
+
+
+
+
     }
 }
