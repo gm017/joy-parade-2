@@ -5,6 +5,7 @@ let rover;
 //Images
 let floor;
 let flag;
+let flagFilter;
 let juliette;
 let avery;
 let deacon;
@@ -14,11 +15,11 @@ let gun;
 let arm;
 let arch;
 let deaconClear;
+let towerFloor;
 let hammer;
+let santosHand;
 let julietteText;
 
-//Models
-let truck;
 
 //Rotations for flying objects
 let rots = 0;
@@ -60,6 +61,7 @@ let scriptsArr = [];
 let script1;
 let script2;
 let script3;
+let script4;
 let gliderGirls;
 let bottomText;
 let alerts = [];
@@ -68,7 +70,8 @@ let skyText = [["i", "i am", "i'll never"], ["love", "thinking", "let"], ["you",
 
 //Background colours
 let backgroundColours = {
-  levelOneBg: [255, 0, 150],
+  // levelOneBg: [255, 0, 150],
+  levelOneBg: [0, 30, 200],
   levelTwoBg: [255, 100, 50],
   levelThreeBg: [0, 0, 20]
 }
@@ -78,7 +81,7 @@ let backgroundColours = {
 let alertColours = [];
 let alertColOne, alertColTwo, alertColThree;
 
-let towerLocations = [];
+let imageLocs = [];
 
 //Text vibrations
 let textVib1, textVib2, textVib;
@@ -93,8 +96,9 @@ let bgOn = true;
 function preload() {
   floor = loadImage('img/floor.jpg');
   flag = loadImage('img/flag.jpg');
-  juliette = loadImage('img/juliette-nobg.png');
-  deaconClear = loadImage('img/deacon-nobg.png');
+  flagFilter = loadImage('img/flag-filter.png');
+  juliette = loadImage('img/juliette-nobg-filter.png');
+  deaconClear = loadImage('img/deacon-nobg-filter.png');
   avery = loadImage('img/avery.png');
   rayna = loadImage('img/rayna.png');
   deacon = loadImage('img/deacon.jpg');
@@ -102,8 +106,10 @@ function preload() {
   sword = loadImage('img/energysword.png');
   gun = loadImage('img/gun.png');
   arm = loadImage('img/arm.png');
+  santosHand = loadImage('img/santos-hand.png');
   hammer = loadImage('img/hammer.png');
   arch = loadImage('img/arch.png');
+  towerFloor = loadImage('img/tower-floor.png');
   julietteText = loadImage('img/julietteText.png');
   gliderGirls = loadFont('fonts/glidergirls.ttf');
   script1 = loadStrings('text/lvl1script.txt');
@@ -117,7 +123,6 @@ function preload() {
   levelThreeMusic = loadSound('audio/levelthree.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
   textChange = loadSound('audio/textchange.wav')
-  truck = loadModel('models/minitruck.obj');
 }
 
 function setup() {
@@ -142,7 +147,7 @@ function setup() {
   console.log(alertColours[alertColCount]);
 
   //Random locations for towers
-  generateTowerLocations();
+  generateImgLocs();
 
   //Initial font settings
   textFont(gliderGirls);
@@ -153,8 +158,8 @@ function setup() {
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg, "7 - ONe");
   levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
-  levelThree = new Level(190000, 190000, flag, arch, backgroundColours.levelThreeBg, "7 - THRee");
-
+  levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
+  levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelThreeBg, "7 - Tower");
 
   imgHeight = 700;
 
@@ -221,73 +226,6 @@ function draw() {
 } //End Draw
 
 
-//Controls the level progression system
-function changeLevels() {
-  if (levelCounter === 0) {
-    levelOne.display()
-    drawTowers(deaconClear, juliette);
-    drawBottomText(scriptsArr[levelCounter], rayna);
-    drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
-    drawWeapon(arm);
-    levelOne.showLevelNumber();
-
-    if (rover.position.x > 30000 || rover.position.x < -30000 || rover.position.z > 30000 || rover.position.z < -30000) {
-      if (displayAlert === true) {
-        rover.position.x = 0;
-        rover.position.z = 0;
-        levelCounter++;
-        displayAlert = false;
-        alertsCount += 2;
-        alertColCount++;
-        levelOneMusic.stop();
-        levelTwoMusic.loop();
-        scriptCount = 1;
-        scriptTimer = 0;
-      }
-    }
-  }
-  if (levelCounter === 1) {
-    levelTwo.display();
-    drawTowers(rayna, flag);
-    levelTwo.showLevelNumber();
-    restrictMovement();
-    drawBottomText(scriptsArr[levelCounter], avery);
-    drawWeapon(hammer);
-    if (rover.position.z > 30000 && rover.position.y > -10000 || rover.position.z < -30000 && rover.position.y > -10000) {
-      if (displayAlert === true) {
-        flyPlayer();
-      }
-    }
-    if (rover.position.z > 30000 && rover.position.y < -10000 || rover.position.z < -30000 && rover.position.y < -10000) {
-      levelCounter = 2;
-      alertsCount += 2;
-      scriptCount = 2;
-      scriptTimer = 0;
-      lockPlayerHeight = true;
-      levelTwoMusic.stop();
-      julietteMonologue.play();
-      rover.position.x = 0;
-      rover.position.z = 0;
-      setTimeout(() => {
-        levelThreeMusic.loop();
-      }, 51000)
-    }
-  }
-  if (levelCounter === 2) {
-    levelThree.display();
-    levelThree.showLevelNumber();
-    if (julietteMonologue.isPlaying()) {
-      drawCentreImage(julietteText);
-      scriptTimer = 0;
-    } else {
-      drawBottomText(scriptsArr[levelCounter], avery);
-    }
-
-    // lockPlayerHeight = true;
-    // displayAlert = false;
-    // displayTextBox = true;
-  }
-}
 
 
 function weaponBob() {
@@ -389,37 +327,31 @@ function drawCentreImage(img) {
 }
 
 //Generates random positions for the towers that appear in the game
-function generateTowerLocations() {
+function generateImgLocs() {
   for (let x = 0; x < 10; x++) {
     for (let z = 0; z < 10; z++) {
       let arr = [random(-30000, 30000), random(-30000, 30000), random(2000, 20000)];
-      towerLocations.push(arr);
+      imageLocs.push(arr);
     }
   }
 }
 
-function drawTowers(img1, img2) {
-  // push();
-  // translate(100, -700, 6000);;
-  // tint(255, 0, 255);
-  // texture(juliette);
-  // cylinder(600, 5700 + random(0, 10));
-  // translate(1500, 0, 0);
-  // texture(avery);
-  // cylinder(600, 17000);
-  // // model(truck);
-  // pop();
-
+function drawImgs(img1, img2) {
   for (let i = 0; i < 50; i++) {
     push();
     texture(img1);
-    translate(towerLocations[i][0], imgHeight, towerLocations[i][1]);
-    plane(600, towerLocations[i][2] / 20);
+    translate(imageLocs[i][0], imgHeight, imageLocs[i][1]);
+    rotateY(radians(imgHeight / 30));
+    plane(4600, imageLocs[i][2] / 2.5);
     texture(img2);
-    translate(100, 100, -100);
-    plane(600, towerLocations[i][2] / 20);
+    translate(1500, 100, -400);
+    plane(4600, imageLocs[i][2] / 2.5);
     translate(0, 100, 0);
-    box(towerLocations[i][2], 10, 60);
+    push();
+    rotateX(radians(imgHeight / 20));
+    rotateZ(radians(imgHeight / 20));
+    box(imageLocs[i][2], 10, 60);
+    pop();
     pop();
   }
 }
