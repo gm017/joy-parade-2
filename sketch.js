@@ -105,7 +105,7 @@ function preload() {
   sky = loadImage('img/skycircle.png');
   sword = loadImage('img/energysword.png');
   gun = loadImage('img/gun.png');
-  arm = loadImage('img/arm.png');
+  arm = loadImage('img/arm-filter.png');
   santosHand = loadImage('img/santos-hand.png');
   hammer = loadImage('img/hammer.png');
   arch = loadImage('img/arch.png');
