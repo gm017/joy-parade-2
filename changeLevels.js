@@ -64,7 +64,7 @@ function changeLevels() {
                 levelCounter = 3;
                 scriptCount = 3
                 scriptTimer = 0;
-            }, 3000);
+            }, 60000);
         }
 
         // lockPlayerHeight = true;
@@ -78,9 +78,7 @@ function changeLevels() {
 
         drawLevelFourBuildings();
 
-
         levelFour.showLevelNumber();
-
 
         drawBottomText(scriptsArr[levelCounter], juliette);
         drawWeapon(arm);
