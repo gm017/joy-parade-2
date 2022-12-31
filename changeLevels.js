@@ -60,6 +60,11 @@ function changeLevels() {
         } else {
             drawBottomText(scriptsArr[levelCounter], avery);
             drawWeapon(santosHand);
+            setTimeout(() => {
+                levelCounter = 3;
+                scriptCount = 3
+                scriptTimer = 0;
+            }, 3000);
         }
 
         // lockPlayerHeight = true;
@@ -70,21 +75,8 @@ function changeLevels() {
 
 
         levelFour.display();
-        push();
-        translate(0, -2700, 9000);
-        rotateZ(radians(rots / 2));
-        rotateX(radians(rots));
-        texture(flagFilter);
-        sphere(3500);
-        pop();
-        push();
-        translate(0, -2700, -9000);
-        rotateZ(radians(rots / 2));
-        rotateX(radians(rots));
-        texture(kingfisher);
-        sphere(3500);
-        pop();
 
+        drawLevelFourBuildings();
 
 
         levelFour.showLevelNumber();

@@ -8,6 +8,7 @@ let flag;
 let flagFilter;
 let juliette;
 let avery;
+let averyFilter;
 let deacon;
 let sky;
 let sword;
@@ -52,8 +53,8 @@ let lockPlayerHeight = true;
 //Counters
 let skyTimer = 0;
 let scriptTimer = 0;
-let levelCounter = 3;
-let scriptCount = 3;
+let levelCounter = 0;
+let scriptCount = 0;
 let alertsCount = 0;
 let alertColCount = 0;
 
@@ -103,6 +104,7 @@ function preload() {
   juliette = loadImage('img/juliette-nobg-filter.png');
   deaconClear = loadImage('img/deacon-nobg-filter.png');
   avery = loadImage('img/avery.png');
+  averyFilter = loadImage('img/avery-filter.png');
   rayna = loadImage('img/rayna.png');
   raynaFilter = loadImage('img/rayna-filter.png');
   deacon = loadImage('img/deacon.jpg');
@@ -139,8 +141,8 @@ function setup() {
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    speed: 5.6 //True game speed
-    // speed: 20 //testing speed
+    // speed: 5.6 //True game speed
+    speed: 20 //testing speed
   });
 
   scriptsArr = [script1, script2, script3, script4];
@@ -149,8 +151,7 @@ function setup() {
   alertColThree = color(255, 0, 0, alertOpacity);
   alertColours = [alertColOne, alertColTwo, alertColThree];
 
-  console.log(alertColOne);
-  console.log(alertColours[alertColCount]);
+
 
   //Random locations for towers
   generateImgLocs();
@@ -162,7 +163,7 @@ function setup() {
   levelOneMusic.loop();
 
   //Create new levels from the Level class
-  levelOne = new Level(60000, 60000, floor, avery, backgroundColours.levelOneBg, "7 - ONe");
+  levelOne = new Level(60000, 60000, floor, averyFilter, backgroundColours.levelOneBg, "7 - ONe");
   levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelThreeBg, "7 - Tower");
@@ -184,7 +185,6 @@ function draw() {
   }
 
 
-  console.log(imgHeight);
 
 
   //Lock the player camera height
@@ -418,6 +418,62 @@ function vibrateSkyText() {
   textVib1 = random(0, 5);
   textVib2 = random(0, 3);
   textVib3 = random(0, 2);
+}
+
+function drawLevelFourBuildings() {
+  push();
+  translate(0, -2700, 9000);
+  rotateZ(radians(rots / 2));
+  rotateX(radians(rots));
+  texture(kingfisher);
+  sphere(3500);
+  pop();
+  push();
+  translate(0, -2700, -9000);
+  rotateZ(radians(rots / 2));
+  rotateX(radians(rots));
+  texture(flagFilter);
+  sphere(3500);
+  pop();
+  push();
+  translate(11000, -4700, 0);
+  rotateZ(radians(rots / 5));
+  rotateX(radians(rots / 10));
+  texture(deaconClear);
+  sphere(5500);
+  pop();
+  push();
+  translate(-9000, -2700, 0);
+  rotateZ(radians(rots / 2));
+  rotateX(radians(rots));
+  texture(raynaFilter);
+  sphere(3500);
+  pop();
+  push();
+  translate(0, -5700, 0);
+  rotateZ(radians(rots / 2));
+  rotateX(radians(rots));
+  texture(towerFloor);
+  box(500);
+  pop();
+  push();
+  translate(0, 10000, 0);
+  texture(towerFloor);
+  box(3000, 20000, 3000);
+  pop();
+  push();
+  translate(5000, 10000, 5000);
+  texture(towerFloor);
+  box(3000, 20000, 3000);
+  pop();
+  push();
+  translate(-5000, 10000, -5000);
+  tint(0, 0, 255);
+  texture(raynaFilter);
+  box(3000, 20000, 3000);
+  pop();
+
+
 }
 
 function keyPressed() {
