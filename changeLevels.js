@@ -46,6 +46,7 @@ function changeLevels() {
             julietteMonologue.play();
             rover.position.x = 0;
             rover.position.z = 0;
+            displayAlert = false;
             setTimeout(() => {
                 levelThreeMusic.loop();
             }, 51000)
@@ -60,11 +61,19 @@ function changeLevels() {
         } else {
             drawBottomText(scriptsArr[levelCounter], avery);
             drawWeapon(santosHand);
-            setTimeout(() => {
-                levelCounter = 3;
-                scriptCount = 3
+
+            if (displayAlert === true) {
+
+                // alertsCount += 2;
+                scriptCount = 3;
                 scriptTimer = 0;
-            }, 60000);
+                rover.position.x = 0;
+                rover.position.z = 0;
+                scriptTimer = 0;
+                levelThreeMusic.stop();
+                levelCounter = 3;
+                alertsCount += 2;
+            }
         }
 
         // lockPlayerHeight = true;
