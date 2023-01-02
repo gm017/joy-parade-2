@@ -28,7 +28,7 @@ function changeLevels() {
         levelTwo.display();
         drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
-        restrictMovement();
+        levelTwoRestrictMovement();
         drawBottomText(scriptsArr[levelCounter], avery);
         drawWeapon(hammer);
         if (rover.position.z > 30000 && rover.position.y > -10000 || rover.position.z < -30000 && rover.position.y > -10000) {
@@ -56,7 +56,7 @@ function changeLevels() {
         levelThree.display();
         levelThree.showLevelNumber();
         if (julietteMonologue.isPlaying()) {
-            drawCentreImage(julietteText);
+            drawCentreImage(julietteText, 10150, 9050);
             scriptTimer = 0;
         } else {
             drawBottomText(scriptsArr[levelCounter], avery);
@@ -73,6 +73,10 @@ function changeLevels() {
                 levelThreeMusic.stop();
                 levelCounter = 3;
                 alertsCount += 2;
+                displayAlert = false;
+                levelThreeMusic.stop();
+                levelOneMusic.stop();
+                graceMonologue.play();
             }
         }
 
@@ -82,7 +86,6 @@ function changeLevels() {
     }
     if (levelCounter === 3) {
 
-
         levelFour.display();
 
         drawLevelFourBuildings();
@@ -90,6 +93,10 @@ function changeLevels() {
         levelFour.showLevelNumber();
 
         drawBottomText(scriptsArr[levelCounter], juliette);
+        if (graceMonologue.isPlaying() === true) {
+            drawCentreImage(graceText);
+            displayAlert = false;
+        }
         drawWeapon(arm);
 
 

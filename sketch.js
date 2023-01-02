@@ -23,6 +23,7 @@ let towerFloor;
 let hammer;
 let santosHand;
 let julietteText;
+let graceText;
 
 
 //Rotations for flying objects
@@ -41,6 +42,7 @@ let playerHeight = -300;
 //Audio
 let footsteps;
 let julietteMonologue;
+let graceMonologue;
 let levelOneMusic;
 let levelTwoMusic;
 let levelThreeMusic;
@@ -53,6 +55,7 @@ let lockPlayerHeight = true;
 //Counters
 let skyTimer = 0;
 let scriptTimer = 0;
+let scriptTimerFrames = 200;
 let levelCounter = 0;
 let scriptCount = 0;
 let alertsCount = 0;
@@ -118,6 +121,7 @@ function preload() {
   arch = loadImage('img/arch.png');
   towerFloor = loadImage('img/tower-floor.png');
   julietteText = loadImage('img/julietteText.png');
+  graceText = loadImage('img/gracetext.png')
   gliderGirls = loadFont('fonts/glidergirls.ttf');
   script1 = loadStrings('text/lvl1script.txt');
   script2 = loadStrings('text/lvl2script.txt');
@@ -130,6 +134,7 @@ function preload() {
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
   levelThreeMusic = loadSound('audio/levelthree.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
+  graceMonologue = loadSound('audio/grace-monologue.mp3')
   textChange = loadSound('audio/textchange.wav')
 }
 
@@ -141,8 +146,8 @@ function setup() {
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    speed: 5.6 //True game speed
-    // speed: 20 //testing speed
+    // speed: 5.6 //True game speed
+    speed: 30 //testing speed
   });
 
   scriptsArr = [script1, script2, script3, script4];
@@ -201,7 +206,7 @@ function draw() {
     displayTextBox = false;
     displayAlert = true;
     // rover.position.z += 150;
-  } else if (frameCount % 200 === 0 && julietteMonologue.isPlaying() === false) {
+  } else if (frameCount % scriptTimerFrames === 0 && julietteMonologue.isPlaying() === false) {
     scriptTimer += 2;
     textChange.play();
     displayTextBox = true;
@@ -328,7 +333,7 @@ function drawCentreImage(img) {
   ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
   translate(-600, 390, 0);
   rotateY(radians(-40));
-  image(img, 10, -900, 1150, 950);
+  image(img, 10, -900, 650, 350);
   pop();
 }
 
@@ -363,7 +368,16 @@ function drawImgs(img1, img2) {
 }
 
 //Restricts the player movement in Level 2 so that they can't walk off the platform
-function restrictMovement() {
+function levelTwoRestrictMovement() {
+  if (rover.position.x > 200) {
+    rover.position.x = 200;
+  }
+  if (rover.position.x < -200) {
+    rover.position.x = -200;
+  }
+}
+
+function levelTwoRestrictMovement() {
   if (rover.position.x > 200) {
     rover.position.x = 200;
   }
@@ -411,7 +425,6 @@ function drawSkyText(txt, vib1, vib2, vib3) {
   pop();
   pop();
 }
-
 
 //Set Sky text vibration
 function vibrateSkyText() {
