@@ -74,6 +74,5 @@ class Level {
 
         text(this.lvlNum, 30, -1 - 120);
         pop();
-        console.log(this.lvlNum);
     }
 }

@@ -1,4 +1,12 @@
 
+//"One, I Love You"
+//Gabriel Manzi
+
+//Images in the game taken from google image search "nashville (character) tv show", "hand holding (object)", "arm with watch stock image" and "Nashville movie flag"
+//Using Rovercam for the camera controls https://github.com/freshfork/p5.RoverCam
+//Some functions adapted from the Mazerunner game example on the rovercam (these are noted in the comments next to them)
+//Juliette Barnes voiced by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
+
 //Variable for rovercam
 let rover;
 
@@ -32,11 +40,12 @@ let rots = 0;
 //Height for floating images
 let imgHeight;
 
-//Text box display
+//Text display
 let displayTextBox = true;
 let displayAlert = false;
 let alertOpacity = 255;
 
+//Inital camera height
 let playerHeight = -300;
 
 //Audio
@@ -61,6 +70,7 @@ let scriptCount = 0;
 let alertsCount = 0;
 let alertColCount = 0;
 
+//Initial player weapon height
 let weapx = -545;
 
 //Text
@@ -88,18 +98,20 @@ let backgroundColours = {
 let alertColours = [];
 let alertColOne, alertColTwo, alertColThree;
 
+//Array for floting image locations
 let imageLocs = [];
 
-//Text vibrations
+//Text vibration speeds
 let textVib1, textVib2, textVib;
 
 //Levels
 let levelOne;
 let levelTwo;
 let levelThree;
+let levelFour;
 
-let bgOn = true;
 
+//Preload images, text files and audio
 function preload() {
   floor = loadImage('img/floor.jpg');
   flag = loadImage('img/flag.jpg');
@@ -158,13 +170,14 @@ function setup() {
 
 
 
-  //Random locations for towers
+  //Random locations for floating images
   generateImgLocs();
 
   //Initial font settings
   textFont(gliderGirls);
   textSize(50);
 
+  //Starts music for the first stage
   levelOneMusic.loop();
 
   //Create new levels from the Level class
@@ -173,22 +186,13 @@ function setup() {
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelThreeBg, "7 - Tower");
 
+  //Initial floating image height
   imgHeight = 700;
 
 } // END SETUP
 
 function draw() {
   noStroke();
-  rots++;
-
-
-  if (imgHeight <= 700) {
-    imgHeight -= 5;
-  }
-  if (imgHeight <= -7000) {
-    imgHeight = 700;
-  }
-
 
 
 
@@ -327,6 +331,9 @@ function drawWeapon(weap) {
   pop();
 }
 
+//Displays the images of text files in stages 7 - Three and 7 - Tower
+//Adapted from Mazerunner example linked from the rovercam github page
+//https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
 function drawCentreImage(img) {
   push();
   camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
@@ -348,6 +355,15 @@ function generateImgLocs() {
 }
 
 function drawImgs(img1, img2) {
+  rots++;
+
+  if (imgHeight <= 700) {
+    imgHeight -= 5;
+  }
+  if (imgHeight <= -7000) {
+    imgHeight = 700;
+  }
+
   for (let i = 0; i < 50; i++) {
     push();
     texture(img1);
@@ -367,6 +383,23 @@ function drawImgs(img1, img2) {
   }
 }
 
+//Restricts the player movement in Level 1 so that they can't walk through the walls until the dialogue has finished
+function levelOneRestrictMovement() {
+  console.log(rover.position.x);
+  if (rover.position.x > 29500) {
+    rover.position.x = 29500;
+  }
+  if (rover.position.x < -29500) {
+    rover.position.x = -29500;
+  }
+  if (rover.position.z > 29500) {
+    rover.position.z = 29500;
+  }
+  if (rover.position.z < -29500) {
+    rover.position.z = -29500;
+  }
+}
+
 //Restricts the player movement in Level 2 so that they can't walk off the platform
 function levelTwoRestrictMovement() {
   if (rover.position.x > 200) {
@@ -377,14 +410,6 @@ function levelTwoRestrictMovement() {
   }
 }
 
-function levelTwoRestrictMovement() {
-  if (rover.position.x > 200) {
-    rover.position.x = 200;
-  }
-  if (rover.position.x < -200) {
-    rover.position.x = -200;
-  }
-}
 
 //Makes the player fly by altering the camera Y position
 function flyPlayer() {
@@ -392,8 +417,10 @@ function flyPlayer() {
   rover.position.y -= 10;
 }
 
+//Displays the floating text in the sky which follows the players position based on the camera
 function drawSkyText(txt, vib1, vib2, vib3) {
 
+  //Loops through the different phrases basesd on the framecount
   if (frameCount % 200 === 0 && skyTimer < 2) {
     skyTimer += 1;
   } else if (frameCount % 200 === 0) {
@@ -422,7 +449,6 @@ function drawSkyText(txt, vib1, vib2, vib3) {
   rotateX(radians(90));
   rotateY(radians(180));
   text(txt[2], 0, 0 + vib3);
-  pop();
   pop();
 }
 
@@ -485,10 +511,10 @@ function drawLevelFourBuildings() {
   texture(raynaFilter);
   box(3000, 20000, 3000);
   pop();
-
-
 }
 
+//Controls the footstep sound when pressing/releasing WASD keys
+//Puts the game into fullscreen if they press the enter key
 function keyPressed() {
 
   if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {

@@ -8,6 +8,10 @@ function changeLevels() {
         drawWeapon(arm);
         levelOne.showLevelNumber();
 
+        if (displayAlert === false) {
+            levelOneRestrictMovement();
+        }
+
         if (rover.position.x > 30000 || rover.position.x < -30000 || rover.position.z > 30000 || rover.position.z < -30000) {
             if (displayAlert === true) {
                 rover.position.x = 0;
