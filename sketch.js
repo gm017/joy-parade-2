@@ -71,7 +71,7 @@ let lockPlayerHeight = true;
 //Counters
 let skyTimer = 0;
 let scriptTimer = 0;
-let scriptTimerFrames = 20;
+let scriptTimerFrames = 200;
 let levelCounter = 0;
 let scriptCount = 0;
 let alertsCount = 0;
