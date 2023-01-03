@@ -1,11 +1,16 @@
 
+// - - - - - - - - - - - - - - - - - - - - - - -
 //"One, I Love You"
 //Gabriel Manzi
 
-//Images in the game taken from google image search "nashville (character) tv show", "hand holding (object)", "arm with watch stock image" and "Nashville movie flag"
+//Images in the game taken from google image searches: "nashville (character) tv show", "hand holding (object)", "arm with watch stock image", "cartier santos on wrist" and "Nashville movie flag"
 //Using Rovercam for the camera controls https://github.com/freshfork/p5.RoverCam
-//Some functions adapted from the Mazerunner game example on the rovercam (these are noted in the comments next to them)
+//Some functions adapted from the Mazerunner game example on the rovercam github (these are noted in the comments next to them)
+//Custom knife chat in stage "7 - Tower" taken from Rodzilla Hunk's comment on "Casio G-Shock collectors" Facebook group
 //Juliette Barnes voiced by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
+// - - - - - - - - - - - - - - - - - - - - - - -
+
+//Any code not in sketch.js is in level.js or changeLevels.js
 
 //Variable for rovercam
 let rover;
@@ -32,7 +37,6 @@ let hammer;
 let santosHand;
 let julietteText;
 let graceText;
-
 
 //Rotations for flying objects
 let rots = 0;
@@ -90,9 +94,9 @@ let backgroundColours = {
   // levelOneBg: [255, 0, 150],
   levelOneBg: [0, 30, 200],
   levelTwoBg: [255, 100, 50],
-  levelThreeBg: [0, 0, 20]
+  levelThreeBg: [0, 0, 20],
+  levelFourBg: [0, 50, 20]
 }
-
 
 //Alert text colours
 let alertColours = [];
@@ -109,7 +113,6 @@ let levelOne;
 let levelTwo;
 let levelThree;
 let levelFour;
-
 
 //Preload images, text files and audio
 function preload() {
@@ -184,7 +187,7 @@ function setup() {
   levelOne = new Level(60000, 60000, floor, averyFilter, backgroundColours.levelOneBg, "7 - ONe");
   levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
-  levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelThreeBg, "7 - Tower");
+  levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
 
   //Initial floating image height
   imgHeight = 700;
@@ -193,23 +196,16 @@ function setup() {
 
 function draw() {
   noStroke();
-
-
-
+  rots++;
   //Lock the player camera height
-
   if (lockPlayerHeight === true) {
     rover.position.y = -300;
   }
-
-  //Timer for changing the sky text counter
-
 
   //Timing for changing the bottom text box counter
   if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
     displayTextBox = false;
     displayAlert = true;
-    // rover.position.z += 150;
   } else if (frameCount % scriptTimerFrames === 0 && julietteMonologue.isPlaying() === false) {
     scriptTimer += 2;
     textChange.play();
@@ -227,21 +223,13 @@ function draw() {
 
   vibrateSkyText();
 
-
-  // fill(255, 0, 0);
-
-
   changeLevels();
 
-  // drawBottomText(script1);
   drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
   drawFloatingObjects(rots);
   weaponBob(weapx);
 
 } //End Draw
-
-
-
 
 function weaponBob() {
   if (keyIsDown(87) || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
@@ -252,8 +240,6 @@ function weaponBob() {
     }
   }
 }
-
-
 
 function drawAlert(col, opac, txt1, txt2) {
 
@@ -270,7 +256,6 @@ function drawAlert(col, opac, txt1, txt2) {
   pop();
 
 }
-
 
 //Displays the text box and portrait at the bottom of the screen
 //Adapted from Mazerunner example linked from the rovercam github page
@@ -409,7 +394,6 @@ function levelTwoRestrictMovement() {
     rover.position.x = -200;
   }
 }
-
 
 //Makes the player fly by altering the camera Y position
 function flyPlayer() {
