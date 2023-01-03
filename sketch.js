@@ -9,11 +9,11 @@
 //Custom knife chat in stage "7 - Tower" taken from Rodzilla Hunk's comment on "Casio G-Shock collectors" Facebook group
 //Juliette Barnes voiced by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
 
-
+//Control the player character with WASD and look around with the mouse
+//Press the enter key to make the game full screen
 //Any code not in sketch.js is in level.js or changeLevels.js
 //There is a walkthrough for the game in the files 
 // - - - - - - - - - - - - - - - - - - - - - - -
-
 
 //Variable for rovercam
 let rover;
@@ -175,8 +175,6 @@ function setup() {
   alertColThree = color(255, 0, 0, alertOpacity);
   alertColours = [alertColOne, alertColTwo, alertColThree];
 
-
-
   //Random locations for floating images
   generateImgLocs();
 
@@ -215,14 +213,6 @@ function draw() {
     textChange.play();
     displayTextBox = true;
     displayAlert = false;
-  }
-
-  if (frameCount % 50 === 0) {
-    if (alertOpacity === 0) {
-      alertOpacity = 255;
-    } else {
-      alertOpacity = 0;
-    }
   }
 
   vibrateSkyText();
@@ -343,8 +333,8 @@ function generateImgLocs() {
   }
 }
 
+//Displays the images which float up from the ground and reset once they reach a certain height
 function drawImgs(img1, img2) {
-  rots++;
 
   if (imgHeight <= 700) {
     imgHeight -= 5;
@@ -466,6 +456,8 @@ function drawLevelFourBuildings() {
   translate(11000, -4700, 0);
   rotateZ(radians(rots / 5));
   rotateX(radians(rots / 10));
+  texture(raynaFilter);
+  sphere(2000);
   texture(deaconClear);
   sphere(5500);
   pop();
@@ -498,6 +490,15 @@ function drawLevelFourBuildings() {
   tint(0, 0, 255);
   texture(raynaFilter);
   box(3000, 20000, 3000);
+  pop();
+}
+
+function drawLevelTwoTube() {
+  push();
+  rotateX(radians(90));
+  rotateY(radians(rots));
+  texture(flagFilter);
+  cylinder(3000, 90000);
   pop();
 }
 
