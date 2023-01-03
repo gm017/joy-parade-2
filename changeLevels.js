@@ -30,17 +30,25 @@ function changeLevels() {
 
     if (levelCounter === 1) {
         levelTwo.display();
+
+        push();
+        rotateX(radians(90));
+        rotateY(radians(rots));
+        texture(flagFilter);
+        cylinder(3000, 90000);
+        pop();
+
         drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
         levelTwoRestrictMovement();
         drawBottomText(scriptsArr[levelCounter], avery);
         drawWeapon(hammer);
-        if (rover.position.z > 30000 && rover.position.y > -10000 || rover.position.z < -30000 && rover.position.y > -10000) {
-            if (displayAlert === true) {
-                flyPlayer();
-            }
+
+        if (displayAlert === true) {
+            flyPlayer();
         }
-        if (rover.position.z > 30000 && rover.position.y < -10000 || rover.position.z < -30000 && rover.position.y < -10000) {
+
+        if (rover.position.y < -10000) {
             levelCounter = 2;
             alertsCount += 2;
             scriptCount = 2;
@@ -56,6 +64,7 @@ function changeLevels() {
             }, 51000)
         }
     }
+
     if (levelCounter === 2) {
         levelThree.display();
         levelThree.showLevelNumber();
@@ -108,3 +117,5 @@ function changeLevels() {
 
     }
 }
+
+

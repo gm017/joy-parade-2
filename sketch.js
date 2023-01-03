@@ -8,9 +8,12 @@
 //Some functions adapted from the Mazerunner game example on the rovercam github (these are noted in the comments next to them)
 //Custom knife chat in stage "7 - Tower" taken from Rodzilla Hunk's comment on "Casio G-Shock collectors" Facebook group
 //Juliette Barnes voiced by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
-// - - - - - - - - - - - - - - - - - - - - - - -
+
 
 //Any code not in sketch.js is in level.js or changeLevels.js
+//There is a walkthrough for the game in the files 
+// - - - - - - - - - - - - - - - - - - - - - - -
+
 
 //Variable for rovercam
 let rover;
@@ -68,7 +71,7 @@ let lockPlayerHeight = true;
 //Counters
 let skyTimer = 0;
 let scriptTimer = 0;
-let scriptTimerFrames = 200;
+let scriptTimerFrames = 20;
 let levelCounter = 0;
 let scriptCount = 0;
 let alertsCount = 0;
@@ -93,7 +96,8 @@ let skyText = [["i", "i am", "i'll never"], ["love", "thinking", "let"], ["you",
 let backgroundColours = {
   // levelOneBg: [255, 0, 150],
   levelOneBg: [0, 30, 200],
-  levelTwoBg: [255, 100, 50],
+  // levelTwoBg: [255, 100, 50],
+  levelTwoBg: [0, 10, 20],
   levelThreeBg: [0, 0, 20],
   levelFourBg: [0, 50, 20]
 }
@@ -398,7 +402,7 @@ function levelTwoRestrictMovement() {
 //Makes the player fly by altering the camera Y position
 function flyPlayer() {
   lockPlayerHeight = false;
-  rover.position.y -= 10;
+  rover.position.y -= 20;
 }
 
 //Displays the floating text in the sky which follows the players position based on the camera
