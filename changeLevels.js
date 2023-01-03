@@ -35,7 +35,7 @@ function changeLevels() {
         rotateX(radians(90));
         rotateY(radians(rots));
         texture(flagFilter);
-        cylinder(3000, 90000);
+        cylinder(3000, 160000);
         pop();
 
         drawImgs(raynaFilter, flagFilter);
