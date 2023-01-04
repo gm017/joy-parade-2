@@ -34,6 +34,7 @@ let kingfisher;
 let gun;
 let arm;
 let arch;
+let ancientPot;
 let deaconClear;
 let towerFloor;
 let hammer;
@@ -72,10 +73,12 @@ let lockPlayerHeight = true;
 let skyTimer = 0;
 let scriptTimer = 0;
 let scriptTimerFrames = 200;
-let levelCounter = 0;
+let levelCounter = 4;
 let scriptCount = 0;
 let alertsCount = 0;
 let alertColCount = 0;
+let endingSequence = 1;
+let endingSequenceSpeed = 100;
 
 //Initial player weapon height
 let weapx = -545;
@@ -86,6 +89,7 @@ let script1;
 let script2;
 let script3;
 let script4;
+let script5;
 let gliderGirls;
 let bottomText;
 let alerts = [];
@@ -117,6 +121,7 @@ let levelOne;
 let levelTwo;
 let levelThree;
 let levelFour;
+let levelFive;
 
 //Preload images, text files and audio
 function preload() {
@@ -138,6 +143,7 @@ function preload() {
   hammer = loadImage('img/hammer-filter.png');
   kingfisher = loadImage('img/kingfisher-filter.png');
   arch = loadImage('img/arch.png');
+  ancientPot = loadImage('img/ancient-pot.png')
   towerFloor = loadImage('img/tower-floor.png');
   julietteText = loadImage('img/julietteText.png');
   graceText = loadImage('img/gracetext.png')
@@ -146,6 +152,7 @@ function preload() {
   script2 = loadStrings('text/lvl2script.txt');
   script3 = loadStrings('text/lvl3script.txt');
   script4 = loadStrings('text/lvl4script.txt');
+  script5 = loadStrings('text/lvl5script.txt');
   alerts = loadStrings('text/alerts.txt');
   footsteps = loadSound('audio/footsteps.mp3');
   julietteMonologue = loadSound('audio/juliettemonologue.mp3');
@@ -169,7 +176,7 @@ function setup() {
     // speed: 30 //testing speed
   });
 
-  scriptsArr = [script1, script2, script3, script4];
+  scriptsArr = [script1, script2, script3, script4, script5];
   alertColOne = color(0, alertOpacity);
   alertColTwo = color(0, 0, 255, alertOpacity);
   alertColThree = color(255, 0, 0, alertOpacity);
@@ -190,6 +197,8 @@ function setup() {
   levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
+  levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFourBg, "8 - ONe")
+
 
   //Initial floating image height
   imgHeight = 700;

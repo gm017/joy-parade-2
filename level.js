@@ -1,5 +1,6 @@
 //Class to create levels of the game
 class Level {
+    //Constructor sets variables for elements that are shared between all stages
     constructor(x, z, floorTexture, wallTexture, bgColour, lvlNum, script, weapon, portrait,) {
         this.x = x;
         this.z = z;
@@ -12,6 +13,7 @@ class Level {
         this.lvlNum = lvlNum;
     }
     display() {
+        //Displays the basics of each stage (walls and floor)
         background(this.bgColour);
         push();
         rotateX(radians(90));
@@ -62,16 +64,15 @@ class Level {
         }
     }
     showLevelNumber() {
+        //Displays stage name/number at the top left of the screen
         push();
         camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
         ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
         fill(0, 0, 213);
         translate(-950, -350, 0);
-        // rect(0, -180, 165, 90);
         textSize(30);
         fill(255);
         rotateY(radians(rots * 1.5))
-
         text(this.lvlNum, 30, -1 - 120);
         pop();
     }

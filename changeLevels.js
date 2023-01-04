@@ -31,12 +31,8 @@ function changeLevels() {
     if (levelCounter === 1) {
         levelTwo.display();
 
-        push();
-        rotateX(radians(90));
-        rotateY(radians(rots));
-        texture(flagFilter);
-        cylinder(3000, 90000);
-        pop();
+
+        drawLevelTwoTube();
 
         drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
@@ -100,20 +96,120 @@ function changeLevels() {
     if (levelCounter === 3) {
 
         levelFour.display();
-
         drawLevelFourBuildings();
-
         levelFour.showLevelNumber();
-
         drawBottomText(scriptsArr[levelCounter], juliette);
+
         if (graceMonologue.isPlaying() === true) {
             drawCentreImage(graceText);
             displayAlert = false;
         }
+
+        drawWeapon(arm);
+    }
+    if (levelCounter === 4) {
+
+        // if (endingSequenceSpeed > 5) {
+        //     rover.position.x = 0;
+        //     rover.position.z = 0;
+        // }
+
+        if (frameCount % endingSequenceSpeed === 0 && endingSequence <= 8) {
+            endingSequence++
+            console.log(endingSequence)
+        } else if (frameCount % endingSequenceSpeed === 0) {
+            endingSequence = 0;
+            if (endingSequenceSpeed > 5) {
+                endingSequenceSpeed -= 5;
+                console.log(endingSequenceSpeed)
+            }
+        }
+
+        push();
+
+        // endingSequence = 4
+
+        switch (endingSequence) {
+            case 1:
+                levelFive.display();
+                texture(kingfisher);
+                translate(0, 0, 2000)
+                rotateX(radians(rots));
+                rotateZ(radians(rots));
+                sphere(1000);
+                break;
+            case 2:
+                texture(flagFilter);
+                rotateY(radians(rots * 8));
+                sphere(1000);
+                break;
+            case 3:
+                levelOne.display();
+                translate(0, -230, 0)
+                texture(ancientPot);
+                // rotateZ(radians(90));
+                rotateY(radians(rots * 2));
+                box(1300, 700, 1300);
+                // translate(500, 0, 0)
+                // sphere(300);
+                // translate(400, 0, 0)
+                // sphere(200);
+                break;
+            case 4:
+                levelFour.display();
+                drawLevelFourBuildings();
+                drawLevelTwoTube();
+                break;
+            case 5:
+                levelOne.display();
+                translate(0, -500, 3000)
+                texture(kingfisher);
+                rotateZ(radians(-90));
+                rotateX(radians(rots * 8));
+                sphere(400);
+                translate(500, 0, 0)
+                sphere(300);
+                translate(400, 0, 0)
+                sphere(200);
+                break;
+            case 6:
+                levelFour.display();
+                drawLevelFourBuildings();
+                translate(0, -230, 0)
+                texture(ancientPot);
+                // rotateZ(radians(90));
+                rotateY(radians(rots * 2));
+                box(1300, 700, 1300);
+                // translate(500, 0, 0)
+                // sphere(300);
+                // translate(400, 0, 0)
+                // sphere(200);
+                break;
+            case 7:
+                levelTwo.display();
+                drawLevelTwoTube();
+                if (endingSequenceSpeed > 15) {
+                    levelTwoRestrictMovement();
+                }
+                break;
+            case 8:
+                levelThree.display();
+                drawLevelFourBuildings();
+                break;
+
+        }
+        pop();
+
+
+        drawImgs(kingfisher, ancientPot);
+
         drawWeapon(arm);
 
 
-
+        // levelFive.display();
+        // drawBottomText(scriptsArr[levelCounter], arm);
+        // drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
+        levelFive.showLevelNumber();
 
     }
 }
