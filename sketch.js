@@ -194,7 +194,7 @@ function setup() {
 
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, averyFilter, backgroundColours.levelOneBg, "7 - ONe");
-  levelTwo = new Level(600, 90000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
+  levelTwo = new Level(600, 160000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
   levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFourBg, "8 - ONe")

@@ -31,8 +31,17 @@ function changeLevels() {
     if (levelCounter === 1) {
         levelTwo.display();
 
+<<<<<<< HEAD
 
         drawLevelTwoTube();
+=======
+        push();
+        rotateX(radians(90));
+        rotateY(radians(rots));
+        texture(flagFilter);
+        cylinder(3000, 160000);
+        pop();
+>>>>>>> 076b8f62f8f1cf3433e035f7728f08d523da364a
 
         drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
