@@ -63,6 +63,8 @@ let graceMonologue;
 let levelOneMusic;
 let levelTwoMusic;
 let levelThreeMusic;
+let levelFourMusic;
+let levelFiveMusic;
 let textChange;
 
 //Toggle locking player control
@@ -158,8 +160,9 @@ function preload() {
   julietteMonologue = loadSound('audio/juliettemonologue.mp3');
   levelOneMusic = loadSound('audio/levelone.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
-  levelThreeMusic = loadSound('audio/levelthree.mp3')
   levelTwoMusic = loadSound('audio/leveltwo.mp3')
+  levelThreeMusic = loadSound('audio/levelthree.mp3')
+  levelFourMusic = loadSound('audio/levelfour.mp3')
   graceMonologue = loadSound('audio/grace-monologue.mp3')
   textChange = loadSound('audio/textchange.wav')
 }
@@ -172,8 +175,8 @@ function setup() {
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    speed: 5.6 //True game speed
-    // speed: 30 //testing speed
+    // speed: 5.6 //True game speed
+    speed: 30 //testing speed
   });
 
   scriptsArr = [script1, script2, script3, script4, script5];
@@ -525,7 +528,6 @@ function drawEndingSequence() {
   }
 
   push();
-
   switch (endingSequence) {
     case 1:
       levelFive.display();

@@ -76,10 +76,9 @@ function changeLevels() {
             drawWeapon(santosHand);
 
             if (displayAlert === true) {
-
+                scriptTimer = 0;
                 // alertsCount += 2;
                 scriptCount = 3;
-                scriptTimer = 0;
                 rover.position.x = 0;
                 rover.position.z = 0;
                 levelThreeMusic.stop();
@@ -89,6 +88,7 @@ function changeLevels() {
                 levelThreeMusic.stop();
                 levelOneMusic.stop();
                 graceMonologue.play();
+                levelFourMusic.loop();
             }
         }
 
@@ -106,12 +106,11 @@ function changeLevels() {
         if (graceMonologue.isPlaying() === true) {
             drawCentreImage(graceText);
             scriptTimer = 0;
-
+            textChange.stop();
         }
 
         if (graceMonologue.isPlaying() === false) {
             displayAlert = false;
-            displayTextBox = true;
             drawBottomText(scriptsArr[levelCounter], juliette);
             setTimeout(() => {
                 if (levelCounter === 3) {
@@ -119,7 +118,7 @@ function changeLevels() {
                     scriptTimer = 0;
                     rover.position.x = 0;
                     rover.position.z = 0;
-                    levelThreeMusic.stop();
+                    levelFourMusic.stop();
                     levelCounter = 4;
                 }
             }, 60000)
