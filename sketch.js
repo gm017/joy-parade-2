@@ -16,9 +16,9 @@
 
 
 class Item {
-  constructor(locX, locZ, img) {
+  constructor(locX, locY, locZ, img) {
     this.locX = locX;
-    this.locY = -200;
+    this.locY = locY;
     this.locZ = locZ;
     this.collected = false;
     this.img = img;
@@ -27,7 +27,7 @@ class Item {
 
     if (!this.collected) {
       push();
-      translate(this.locX, -200, this.locZ);
+      translate(this.locX, this.locY, this.locZ);
       rotateY(radians(rots));
       texture(this.img);
       box(500, 500);
@@ -55,6 +55,7 @@ let clear;
 let frame;
 let floor;
 let flag;
+let mx5;
 let flagFilter;
 let juliette;
 let avery;
@@ -63,6 +64,8 @@ let deacon;
 let sky;
 let sword;
 let rayna;
+let potItem;
+let santosItem;
 let raynaFilter;
 let kingfisher;
 let gun;
@@ -178,6 +181,9 @@ function preload() {
   sword = loadImage('img/energysword.png');
   gun = loadImage('img/gun.png');
   arm = loadImage('img/arm-filter.png');
+  mx5 = loadImage('img/mx5.jpg');
+  potItem = loadImage('img/potcollect.jpg');
+  santosItem = loadImage('img/santoscollect.jpg');
   frame = loadImage('img/frame.png');
   santosHand = loadImage('img/santos-hand.png');
   hammer = loadImage('img/hammer-filter.png');
@@ -243,7 +249,9 @@ function setup() {
 
 
   //Create new items from the item class
-  pot = new Item(150, 6000, ancientPot);
+  pot = new Item(150, -300, 6000, potItem);
+  car = new Item(0, -300, -10000, mx5);
+  watch = new Item(2000, -300, 2000, santosItem);
 
   //Initial floating image height
   imgHeight = 700;

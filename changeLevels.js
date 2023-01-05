@@ -38,6 +38,10 @@ function changeLevels() {
         levelTwo.showLevelNumber();
         levelTwoRestrictMovement();
         drawBottomText(scriptsArr[levelCounter], avery);
+
+        car.display();
+        car.playerCollect();
+
         drawWeapon(hammer);
 
         if (displayAlert === true) {
@@ -64,6 +68,8 @@ function changeLevels() {
     if (levelCounter === 2) {
         levelThree.display();
         levelThree.showLevelNumber();
+        watch.display();
+        watch.playerCollect();
 
         if (julietteMonologue.isPlaying()) {
             drawCentreImage(julietteText, 10150, 9050);
