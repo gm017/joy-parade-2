@@ -11,7 +11,7 @@
 
 //Control the player character with WASD and look around with the mouse
 //Press the enter key to make the game full screen
-//Any code not in sketch.js is in level.js or changeLevels.js
+//Any code not in sketch.js is in level.js, item.js or changeLevels.js
 //There is a walkthrough for the game in the files 
 // - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -125,6 +125,14 @@ let levelThree;
 let levelFour;
 let levelFive;
 
+//Items
+let collectedItems = [];
+let pot;
+let bike;
+let watch;
+let plane;
+
+
 //Preload images, text files and audio
 function preload() {
   floor = loadImage('img/floor.jpg');
@@ -201,6 +209,10 @@ function setup() {
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
   levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFourBg, "8 - ONe")
+
+
+  //Create new items from the item class
+  pot = new Item(1000, 1000, ancientPot);
 
 
   //Initial floating image height
@@ -510,7 +522,7 @@ function drawLevelTwoTube() {
   rotateX(radians(90));
   rotateY(radians(rots));
   texture(flagFilter);
-  cylinder(3000, 90000);
+  cylinder(3000, 160000);
   pop();
 }
 

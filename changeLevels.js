@@ -31,12 +31,6 @@ function changeLevels() {
     if (levelCounter === 1) {
         levelTwo.display();
         drawLevelTwoTube();
-        push();
-        rotateX(radians(90));
-        rotateY(radians(rots));
-        texture(flagFilter);
-        cylinder(3000, 160000);
-        pop();
 
         drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
@@ -68,9 +62,11 @@ function changeLevels() {
     if (levelCounter === 2) {
         levelThree.display();
         levelThree.showLevelNumber();
+
         if (julietteMonologue.isPlaying()) {
             drawCentreImage(julietteText, 10150, 9050);
             scriptTimer = 0;
+
         } else {
             drawBottomText(scriptsArr[levelCounter], avery);
             drawWeapon(santosHand);
@@ -118,19 +114,17 @@ function changeLevels() {
                 levelFourMusic.stop();
                 levelCounter = 4;
             }
-
         }
 
         drawWeapon(arm);
     }
-    if (levelCounter === 4) {
 
+    if (levelCounter === 4) {
         drawEndingSequence();
         drawImgs(kingfisher, ancientPot);
         levelFive.showLevelNumber();
         drawBottomText(scriptsArr[levelCounter], arm);
         drawWeapon(arm);
-
     }
 }
 
