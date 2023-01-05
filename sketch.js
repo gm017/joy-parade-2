@@ -15,6 +15,42 @@
 //There is a walkthrough for the game in the files 
 // - - - - - - - - - - - - - - - - - - - - - - -
 
+
+class Item {
+  constructor(locX, locZ, img) {
+    this.locX = locX;
+    this.locZ = locZ;
+    this.collected = false;
+    this.img = img;
+    this.xCalc;
+    this.zCalc;
+  }
+  display() {
+    if (!this.collected) {
+      push();
+      translate(this.locX, -200, this.locZ);
+      rotateY(radians(rots));
+      texture(this.img);
+      box(500, 500);
+    }
+  }
+  playerCollect() {
+
+    this.xCalc = (rover.position.x - this.locX);
+    this.zCalc = (rover.position.z - this.locZ);
+
+
+    if (rover.position.x - this.locX <= 200 && rover.position.x - this.locX > 0 && rover.position.z - this.locZ <= 200 && rover.position.z - this.locZ > 0) {
+      this.collected = true;
+    }
+    // console.log(this.zCalc);
+    console.log(rover.position.z)
+  }
+}
+
+let pot;
+
+
 //Variable for rovercam
 let rover;
 
@@ -206,7 +242,7 @@ function setup() {
 
 
   //Create new items from the item class
-
+  pot = new Item(0, 0, ancientPot);
 
   //Initial floating image height
   imgHeight = 700;
@@ -214,6 +250,9 @@ function setup() {
 } // END SETUP
 
 function draw() {
+
+
+
   noStroke();
   rots++;
   //Lock the player camera height
@@ -239,6 +278,7 @@ function draw() {
   drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
   drawFloatingObjects(rots);
   weaponBob(weapx);
+
 
 } //End Draw
 

@@ -5,6 +5,8 @@ function changeLevels() {
         drawImgs(deaconClear, juliette);
         drawBottomText(scriptsArr[levelCounter], rayna);
         drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
+        pot.display();
+        pot.playerCollect();
         drawWeapon(arm);
         levelOne.showLevelNumber();
 
