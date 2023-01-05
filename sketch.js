@@ -22,8 +22,6 @@ class Item {
     this.locZ = locZ;
     this.collected = false;
     this.img = img;
-    this.xCalc;
-    this.zCalc;
   }
   display() {
     if (!this.collected) {
@@ -36,15 +34,10 @@ class Item {
   }
   playerCollect() {
 
-    this.xCalc = (rover.position.x - this.locX);
-    this.zCalc = (rover.position.z - this.locZ);
-
-
     if (rover.position.x - this.locX <= 200 && rover.position.x - this.locX > 0 && rover.position.z - this.locZ <= 200 && rover.position.z - this.locZ > 0) {
       this.collected = true;
     }
-    // console.log(this.zCalc);
-    console.log(rover.position.z)
+
   }
 }
 
@@ -133,7 +126,6 @@ let bottomText;
 let alerts = [];
 let skyText = [["i", "i am", "i'll never"], ["love", "thinking", "let"], ["you", "of you", "you go!"]];
 
-
 //Background colours
 let backgroundColours = {
   // levelOneBg: [255, 0, 150],
@@ -160,8 +152,6 @@ let levelTwo;
 let levelThree;
 let levelFour;
 let levelFive;
-
-
 
 //Preload images, text files and audio
 function preload() {
@@ -421,7 +411,7 @@ function drawImgs(img1, img2) {
 
 //Restricts the player movement in Level 1 so that they can't walk through the walls until the dialogue has finished
 function levelOneRestrictMovement() {
-  console.log(rover.position.x);
+
   if (rover.position.x > 29500) {
     rover.position.x = 29500;
   }
@@ -640,7 +630,6 @@ function drawEndingSequence() {
       levelThree.display();
       drawLevelFourBuildings();
       break;
-
   }
   pop();
 
