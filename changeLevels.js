@@ -91,10 +91,6 @@ function changeLevels() {
                 levelFourMusic.loop();
             }
         }
-
-        // lockPlayerHeight = true;
-        // displayAlert = false;
-        // displayTextBox = true;
     }
 
     if (levelCounter === 3) {
@@ -112,16 +108,17 @@ function changeLevels() {
         if (graceMonologue.isPlaying() === false) {
             displayAlert = false;
             drawBottomText(scriptsArr[levelCounter], juliette);
-            setTimeout(() => {
-                if (levelCounter === 3) {
-                    scriptCount = 4;
-                    scriptTimer = 0;
-                    rover.position.x = 0;
-                    rover.position.z = 0;
-                    levelFourMusic.stop();
-                    levelCounter = 4;
-                }
-            }, 60000)
+
+            if (levelCounter === 3 && displayTextBox === false) {
+                scriptCount = 4;
+                alertsCount += 2;
+                scriptTimer = 0;
+                rover.position.x = 0;
+                rover.position.z = 0;
+                levelFourMusic.stop();
+                levelCounter = 4;
+            }
+
         }
 
         drawWeapon(arm);
