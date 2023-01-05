@@ -114,12 +114,14 @@ function changeLevels() {
             displayTextBox = true;
             drawBottomText(scriptsArr[levelCounter], juliette);
             setTimeout(() => {
-                levelCounter = 4;
-                scriptCount = 4;
-                scriptTimer = 0;
-                rover.position.x = 0;
-                rover.position.z = 0;
-                levelThreeMusic.stop();
+                if (levelCounter === 3) {
+                    scriptCount = 4;
+                    scriptTimer = 0;
+                    rover.position.x = 0;
+                    rover.position.z = 0;
+                    levelThreeMusic.stop();
+                    levelCounter = 4;
+                }
             }, 60000)
         }
 
@@ -127,15 +129,11 @@ function changeLevels() {
     }
     if (levelCounter === 4) {
 
-
         drawEndingSequence();
-
-
-
         drawImgs(kingfisher, ancientPot);
-        drawWeapon(arm);
-        // drawBottomText(scriptsArr[levelCounter], arm);
         levelFive.showLevelNumber();
+        drawBottomText(scriptsArr[levelCounter], arm);
+        drawWeapon(arm);
 
     }
 }
