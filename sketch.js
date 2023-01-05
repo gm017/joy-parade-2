@@ -6,7 +6,6 @@
 //Images in the game taken from google image searches: "nashville (character) tv show", "hand holding (object)", "arm with watch stock image", "cartier santos on wrist" and "Nashville movie flag"
 //Using Rovercam for the camera controls https://github.com/freshfork/p5.RoverCam
 //Some functions adapted from the Mazerunner game example on the rovercam github (these are noted in the comments next to them)
-//Custom knife chat in stage "7 - Tower" taken from Rodzilla Hunk's comment on "Casio G-Shock collectors" Facebook group
 //Juliette Barnes voiced by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
 
 //Control the player character with WASD and look around with the mouse
@@ -19,11 +18,13 @@
 class Item {
   constructor(locX, locZ, img) {
     this.locX = locX;
+    this.locY = -200;
     this.locZ = locZ;
     this.collected = false;
     this.img = img;
   }
   display() {
+
     if (!this.collected) {
       push();
       translate(this.locX, -200, this.locZ);
@@ -33,8 +34,11 @@ class Item {
     }
   }
   playerCollect() {
-
-    if (rover.position.x - this.locX <= 200 && rover.position.x - this.locX > 0 && rover.position.z - this.locZ <= 200 && rover.position.z - this.locZ > 0) {
+    if (rover.position.x - this.locX <= 400 && rover.position.x - this.locX > 0 && rover.position.z - this.locZ <= 400 && rover.position.z - this.locZ > 0) {
+      if (!this.collected) {
+        itemArr.push(this.img);
+        fanfare.play();
+      }
       this.collected = true;
     }
 
@@ -43,11 +47,12 @@ class Item {
 
 let pot;
 
-
 //Variable for rovercam
 let rover;
 
 //Images
+let clear;
+let frame;
 let floor;
 let flag;
 let flagFilter;
@@ -95,6 +100,7 @@ let levelThreeMusic;
 let levelFourMusic;
 let levelFiveMusic;
 let textChange;
+let fanfare;
 
 //Toggle locking player control
 let lockControl = false;
@@ -153,8 +159,11 @@ let levelThree;
 let levelFour;
 let levelFive;
 
+let itemArr = [];
+
 //Preload images, text files and audio
 function preload() {
+  clear = loadImage('img/clear.png')
   floor = loadImage('img/floor.jpg');
   flag = loadImage('img/flag.jpg');
   flagFilter = loadImage('img/flag-filter.png');
@@ -169,6 +178,7 @@ function preload() {
   sword = loadImage('img/energysword.png');
   gun = loadImage('img/gun.png');
   arm = loadImage('img/arm-filter.png');
+  frame = loadImage('img/frame.png');
   santosHand = loadImage('img/santos-hand.png');
   hammer = loadImage('img/hammer-filter.png');
   kingfisher = loadImage('img/kingfisher-filter.png');
@@ -186,13 +196,14 @@ function preload() {
   alerts = loadStrings('text/alerts.txt');
   footsteps = loadSound('audio/footsteps.mp3');
   julietteMonologue = loadSound('audio/juliettemonologue.mp3');
-  levelOneMusic = loadSound('audio/levelone.mp3')
-  levelTwoMusic = loadSound('audio/leveltwo.mp3')
-  levelTwoMusic = loadSound('audio/leveltwo.mp3')
-  levelThreeMusic = loadSound('audio/levelthree.mp3')
-  levelFourMusic = loadSound('audio/levelfour.mp3')
-  graceMonologue = loadSound('audio/grace-monologue.mp3')
-  textChange = loadSound('audio/textchange.wav')
+  levelOneMusic = loadSound('audio/levelone.mp3');
+  levelTwoMusic = loadSound('audio/leveltwo.mp3');
+  levelTwoMusic = loadSound('audio/leveltwo.mp3');
+  levelThreeMusic = loadSound('audio/levelthree.mp3');
+  levelFourMusic = loadSound('audio/levelfour.mp3');
+  graceMonologue = loadSound('audio/grace-monologue.mp3');
+  textChange = loadSound('audio/textchange.wav');
+  fanfare = loadSound('audio/fanfare.mp3');
 }
 
 function setup() {
@@ -232,7 +243,7 @@ function setup() {
 
 
   //Create new items from the item class
-  pot = new Item(0, 0, ancientPot);
+  pot = new Item(150, 6000, ancientPot);
 
   //Initial floating image height
   imgHeight = 700;
@@ -241,14 +252,12 @@ function setup() {
 
 function draw() {
 
-
-
   noStroke();
   rots++;
+
   //Lock the player camera height
-  if (lockPlayerHeight === true) {
-    rover.position.y = -300;
-  }
+
+  lockHeight();
 
   //Timing for changing the bottom text box counter
   if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
@@ -268,6 +277,24 @@ function draw() {
   drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
   drawFloatingObjects(rots);
   weaponBob(weapx);
+
+  push();
+  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  fill(0, 0, 213);
+  translate(-950, -350, 0);
+  noFill();
+  stroke(207, 181, 59);
+  strokeWeight(6);
+  for (let i = 0; i < 5; i++) {
+    if (itemArr[i] === undefined) {
+      image(clear, width - 100, i * 100, 70, 70)
+    } else {
+      image(itemArr[i], width - 100, i * 100, 70, 70)
+      image(frame, width - 100, i * 100, 75, 75)
+    }
+  }
+  pop();
 
 
 } //End Draw
@@ -433,6 +460,12 @@ function levelTwoRestrictMovement() {
   }
   if (rover.position.x < -200) {
     rover.position.x = -200;
+  }
+}
+
+function lockHeight() {
+  if (lockPlayerHeight === true) {
+    rover.position.y = -300;
   }
 }
 
