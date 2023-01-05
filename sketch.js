@@ -125,12 +125,6 @@ let levelThree;
 let levelFour;
 let levelFive;
 
-//Items
-let collectedItems = [];
-let pot;
-let bike;
-let watch;
-let plane;
 
 
 //Preload images, text files and audio
@@ -212,7 +206,6 @@ function setup() {
 
 
   //Create new items from the item class
-  pot = new Item(1000, 1000, ancientPot);
 
 
   //Initial floating image height
