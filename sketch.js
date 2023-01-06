@@ -597,8 +597,8 @@ function drawEndingSequence() {
     console.log(endingSequence)
   } else if (frameCount % endingSequenceSpeed === 0) {
     endingSequence = 0;
-    if (endingSequenceSpeed > 5) {
-      endingSequenceSpeed -= 5;
+    if (endingSequenceSpeed > 15) {
+      endingSequenceSpeed -= 15;
       console.log(endingSequenceSpeed)
     }
   }
