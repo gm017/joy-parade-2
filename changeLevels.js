@@ -2,11 +2,68 @@
 function changeLevels() {
     if (levelCounter === 0) {
         levelOne.display()
-        drawImgs(deaconClear, juliette);
-        drawBottomText(scriptsArr[levelCounter], rayna);
-        drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
-        pot.display();
-        pot.playerCollect();
+
+
+        if (rover.position.y === -300) {
+            drawImgs(deaconClear, juliette);
+            drawBottomText(scriptsArr[levelCounter], rayna);
+            drawSkyText(skyText[skyTimer], textVib1, textVib2, textVib3,);
+            pot.display();
+            pot.playerCollect();
+        }
+
+        if (rover.position.y > -300) {
+            lockPlayerHeight = false;
+            rover.position.y -= 10;
+
+            push();
+            translate(0, rover.position.y + 1000, 0);
+            rotateX(radians(90));
+            texture(towerFloor);
+            plane(5000, 5000);
+            pop();
+
+            if (rover.position.y > 1500) {
+                push();
+                translate(0, rover.position.y - 1900, 0);
+                rotateX(radians(90));
+                texture(towerFloor);
+                plane(5000, 5000);
+            }
+
+
+            pop();
+
+            if (rover.position.x > 2000) {
+                rover.position.x = 2000
+            }
+            if (rover.position.x < -2000) {
+                rover.position.x = -2000
+            }
+            if (rover.position.z > 2000) {
+                rover.position.z = 2000
+            }
+            if (rover.position.z < -2000) {
+                rover.position.z = -2000
+            }
+
+            console.log(rover.position.y)
+
+        } else if (lockPlayerHeight = true) {
+            liftSequence = false;
+        }
+
+        console.log(lockPlayerHeight)
+
+        push();
+        texture(lift);
+        translate(0, 10000, 0);
+        box(5000, 20000, 5000);
+        pop();
+
+
+
+
         drawWeapon(arm);
         levelOne.showLevelNumber();
 
@@ -28,6 +85,12 @@ function changeLevels() {
                 scriptTimer = 0;
             }
         }
+
+
+
+
+
+
     }
 
     if (levelCounter === 1) {
@@ -41,6 +104,8 @@ function changeLevels() {
 
         car.display();
         car.playerCollect();
+
+
 
         drawWeapon(hammer);
 

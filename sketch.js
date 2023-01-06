@@ -31,6 +31,7 @@ class Item {
       rotateY(radians(rots));
       texture(this.img);
       box(500, 500);
+      pop();
     }
   }
   playerCollect() {
@@ -58,6 +59,7 @@ let flag;
 let mx5;
 let flagFilter;
 let juliette;
+let lift;
 let avery;
 let averyFilter;
 let deacon;
@@ -108,6 +110,7 @@ let fanfare;
 //Toggle locking player control
 let lockControl = false;
 let lockPlayerHeight = true;
+let liftSequence = true;
 
 //Counters
 let skyTimer = 0;
@@ -178,6 +181,7 @@ function preload() {
   raynaFilter = loadImage('img/rayna-filter.png');
   deacon = loadImage('img/deacon.jpg');
   sky = loadImage('img/skycircle.png');
+  lift = loadImage('img/lift.jpg');
   sword = loadImage('img/energysword.png');
   gun = loadImage('img/gun.png');
   arm = loadImage('img/arm-filter.png');
@@ -256,6 +260,8 @@ function setup() { //Begin setup
   //Initial floating image height
   imgHeight = 700;
 
+  rover.position.y = 19000;
+
 } // Begin draw
 
 function draw() { //Begin draw
@@ -267,16 +273,19 @@ function draw() { //Begin draw
 
   lockHeight();
 
-  //Timing for changing the bottom text box counter
-  if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
-    displayTextBox = false;
-    displayAlert = true;
-  } else if (frameCount % scriptTimerFrames === 0 && julietteMonologue.isPlaying() === false) {
-    scriptTimer += 2;
-    textChange.play();
-    displayTextBox = true;
-    displayAlert = false;
+  if (rover.position.y === -300) {
+    //Timing for changing the bottom text box counter (put into function)
+    if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
+      displayTextBox = false;
+      displayAlert = true;
+    } else if (frameCount % scriptTimerFrames === 0 && julietteMonologue.isPlaying() === false) {
+      scriptTimer += 2;
+      textChange.play();
+      displayTextBox = true;
+      displayAlert = false;
+    }
   }
+
 
   vibrateSkyText();
 
@@ -286,6 +295,7 @@ function draw() { //Begin draw
   drawFloatingObjects(rots);
   weaponBob(weapx);
 
+  //inventory array (put into function)
   push();
   camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
   ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
@@ -303,6 +313,7 @@ function draw() { //Begin draw
     }
   }
   pop();
+
 
 
 } //End Draw
@@ -473,7 +484,7 @@ function levelTwoRestrictMovement() {
 
 function lockHeight() {
 
-  if (lockPlayerHeight === true && levelCounter >= 0) {
+  if (lockPlayerHeight === true && !liftSequence) {
     rover.position.y = -300;
   }
 }
