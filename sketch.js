@@ -212,7 +212,7 @@ function preload() {
   fanfare = loadSound('audio/fanfare.mp3');
 }
 
-function setup() {
+function setup() { //Begin setup
   createCanvas(1920, 1080, WEBGL);
   rover = createRoverCam();
   rover.usePointerLock();
@@ -256,9 +256,9 @@ function setup() {
   //Initial floating image height
   imgHeight = 700;
 
-} // END SETUP
+} // Begin draw
 
-function draw() {
+function draw() { //Begin draw
 
   noStroke();
   rots++;
@@ -472,7 +472,8 @@ function levelTwoRestrictMovement() {
 }
 
 function lockHeight() {
-  if (lockPlayerHeight === true) {
+
+  if (lockPlayerHeight === true && levelCounter >= 0) {
     rover.position.y = -300;
   }
 }
