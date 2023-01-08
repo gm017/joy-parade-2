@@ -15,41 +15,16 @@
 // - - - - - - - - - - - - - - - - - - - - - - -
 
 
-class Item {
-  constructor(locX, locY, locZ, img) {
-    this.locX = locX;
-    this.locY = locY;
-    this.locZ = locZ;
-    this.collected = false;
-    this.img = img;
-  }
-  display() {
-
-    if (!this.collected) {
-      push();
-      translate(this.locX, this.locY, this.locZ);
-      rotateY(radians(rots));
-      texture(this.img);
-      box(500, 500);
-      pop();
-    }
-  }
-  playerCollect() {
-    if (rover.position.x - this.locX <= 400 && rover.position.x - this.locX > 0 && rover.position.z - this.locZ <= 400 && rover.position.z - this.locZ > 0) {
-      if (!this.collected) {
-        itemArr.push(this.img);
-        fanfare.play();
-      }
-      this.collected = true;
-    }
-
-  }
-}
 
 let pot;
+let car;
+let watch;
+let tank;
 
 //Variable for rovercam
 let rover;
+
+let graveyard;
 
 //Images
 let clear;
@@ -167,11 +142,24 @@ let levelFive;
 
 let itemArr = [];
 
+let hideWeapon = false;
+
+let itemX = 70;
+let itemY = 70;
+let itemFrameX = 75;
+let itemFrameY = 75;
+
+itemLocX = width - 100;
+
+
 //Preload images, text files and audio
 function preload() {
+  graveyard = createVideo('vid/graveyard.mp4');
+  graveyard.hide();
   clear = loadImage('img/clear.png')
   floor = loadImage('img/floor.jpg');
   flag = loadImage('img/flag.jpg');
+  tank = loadImage('img/tank.jpg');
   flagFilter = loadImage('img/flag-filter.png');
   juliette = loadImage('img/juliette-nobg-filter.png');
   deaconClear = loadImage('img/deacon-nobg-filter.png');
@@ -251,11 +239,12 @@ function setup() { //Begin setup
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
   levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFourBg, "8 - ONe")
 
-
-  //Create new items from the item class
+  //Create new collectible items from the item class
   pot = new Item(150, -300, 6000, potItem);
   car = new Item(0, -300, -10000, mx5);
   watch = new Item(2000, -300, 2000, santosItem);
+  tank = new Item(2000, -300, 2000, tank);
+  grave = new Item(0, -300, -5000, graveyard);
 
   //Initial floating image height
   imgHeight = 700;
@@ -268,6 +257,11 @@ function draw() { //Begin draw
 
   noStroke();
   rots++;
+
+  rover.position.y = -300;
+
+
+
 
   //Lock the player camera height
 
@@ -291,29 +285,12 @@ function draw() { //Begin draw
 
   changeLevels();
 
+  displayInventory();
   drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
   drawFloatingObjects(rots);
   weaponBob(weapx);
 
-  //inventory array (put into function)
-  push();
-  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-  fill(0, 0, 213);
-  translate(-950, -350, 0);
-  noFill();
-  stroke(207, 181, 59);
-  strokeWeight(6);
-  for (let i = 0; i < 5; i++) {
-    if (itemArr[i] === undefined) {
-      image(clear, width - 100, i * 100, 70, 70)
-    } else {
-      image(itemArr[i], width - 100, i * 100, 70, 70)
-      image(frame, width - 100, i * 100, 75, 75)
-    }
-  }
-  pop();
-
+  console.log(mouseX, mouseY)
 
 
 } //End Draw
@@ -393,14 +370,16 @@ function drawFloatingObjects(rots) {
 //Adapted from Mazerunner example linked from the rovercam github page
 //https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
 function drawWeapon(weap) {
-  push();
-  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-  translate(-600, 390, 0);
-  tint(200, 0, 255);
-  rotateY(radians(-40));
-  image(weap, 900, weapx, 650, 950);
-  pop();
+  if (!hideWeapon) {
+    push();
+    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+    translate(-600, 390, 0);
+    tint(200, 0, 255);
+    rotateY(radians(-40));
+    image(weap, 900, weapx, 650, 950);
+    pop();
+  }
 }
 
 //Displays the images of text files in stages 7 - Three and 7 - Tower
@@ -483,7 +462,6 @@ function levelTwoRestrictMovement() {
 }
 
 function lockHeight() {
-
   if (lockPlayerHeight === true && !liftSequence) {
     rover.position.y = -300;
   }
@@ -497,7 +475,6 @@ function flyPlayer() {
 
 //Displays the floating text in the sky which follows the players position based on the camera
 function drawSkyText(txt, vib1, vib2, vib3) {
-
   //Loops through the different phrases basesd on the framecount
   if (frameCount % 200 === 0 && skyTimer < 2) {
     skyTimer += 1;
@@ -606,12 +583,10 @@ function drawEndingSequence() {
 
   if (frameCount % endingSequenceSpeed === 0 && endingSequence <= 8) {
     endingSequence++
-    console.log(endingSequence)
   } else if (frameCount % endingSequenceSpeed === 0) {
     endingSequence = 0;
     if (endingSequenceSpeed > 15) {
       endingSequenceSpeed -= 15;
-      console.log(endingSequenceSpeed)
     }
   }
 
@@ -688,6 +663,36 @@ function drawEndingSequence() {
 
 }
 
+function displayInventory() {
+  //inventory array (put into function)
+  push();
+  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  fill(0, 0, 213);
+  translate(-950, -350, 0);
+  noFill();
+  stroke(207, 181, 59);
+  strokeWeight(6);
+  for (let i = 0; i < 5; i++) { //INCLUDE IF STATEMENT CHECKING FOR GRAVEYARD
+    if (itemArr[i] === undefined) {
+      image(clear, width - 100, i * 100, 70, 70);
+
+    } else if (itemArr[i] === graveyard) {
+      image(graveyard, width - 100, 0, itemX, itemY);
+      image(frame, width - 100, 0, itemFrameX, itemFrameY);
+    }
+    else {
+      image(itemArr[i], width - 100, i * 100 + 100, 70, 70)
+      image(frame, width - 100, i * 100 + 100, 75, 75)
+    }
+  }
+
+  pop();
+
+
+
+}
+
 //Controls the footstep sound when pressing/releasing WASD keys
 //Puts the game into fullscreen if they press the enter key
 function keyPressed() {
@@ -706,6 +711,10 @@ function keyPressed() {
   }
   if (keyCode === 13) {
     fullscreen(true);
+  }
+
+  if (levelCounter === 4) {
+    graveyard.loop();
   }
 }
 

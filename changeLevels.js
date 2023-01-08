@@ -167,6 +167,8 @@ function changeLevels() {
         levelFour.display();
         drawLevelFourBuildings();
         levelFour.showLevelNumber();
+        tank.display();
+        tank.playerCollect();
 
         if (graceMonologue.isPlaying() === true) {
             drawCentreImage(graceText);
@@ -196,6 +198,8 @@ function changeLevels() {
         drawEndingSequence();
         drawImgs(kingfisher, ancientPot);
         levelFive.showLevelNumber();
+        grave.display();
+        grave.playerCollect();
         drawBottomText(scriptsArr[levelCounter], arm);
         drawWeapon(arm);
     }
