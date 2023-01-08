@@ -14,17 +14,12 @@
 //There is a walkthrough for the game in the files 
 // - - - - - - - - - - - - - - - - - - - - - - -
 
+//Declare variables
 
-
-let pot;
-let car;
-let watch;
-let tank;
 
 //Variable for rovercam
 let rover;
 
-let graveyard;
 
 //Images
 let clear;
@@ -87,7 +82,7 @@ let lockControl = false;
 let lockPlayerHeight = true;
 let liftSequence = true;
 
-//Counters
+//Counters, settings etc.
 let skyTimer = 0;
 let scriptTimer = 0;
 let scriptTimerFrames = 200;
@@ -97,6 +92,7 @@ let alertsCount = 0;
 let alertColCount = 0;
 let endingSequence = 1;
 let endingSequenceSpeed = 100;
+let hideWeapon = false;
 
 //Initial player weapon height
 let weapx = -545;
@@ -115,9 +111,7 @@ let skyText = [["i", "i am", "i'll never"], ["love", "thinking", "let"], ["you",
 
 //Background colours
 let backgroundColours = {
-  // levelOneBg: [255, 0, 150],
   levelOneBg: [0, 30, 200],
-  // levelTwoBg: [255, 100, 50],
   levelTwoBg: [0, 10, 20],
   levelThreeBg: [0, 0, 20],
   levelFourBg: [0, 50, 20]
@@ -140,20 +134,21 @@ let levelThree;
 let levelFour;
 let levelFive;
 
+//Collectible items
+let pot;
+let car;
+let watch;
+let tank;
+let graveyard;
 let itemArr = [];
 
-let hideWeapon = false;
-
+//Location and size of graveyard video when in player inventory
 let itemX = 70;
 let itemY = 70;
 let itemFrameX = 75;
 let itemFrameY = 75;
 
-itemLocX = width - 100;
-
-
-//Preload images, text files and audio
-function preload() {
+function preload() {    //Preload images, text files and audio
   graveyard = createVideo('vid/graveyard.mp4');
   graveyard.hide();
   clear = loadImage('img/clear.png')
@@ -204,7 +199,7 @@ function preload() {
   fanfare = loadSound('audio/fanfare.mp3');
 }
 
-function setup() { //Begin setup
+function setup() {    //Begin setup
   createCanvas(1920, 1080, WEBGL);
   rover = createRoverCam();
   rover.usePointerLock();
@@ -249,24 +244,26 @@ function setup() { //Begin setup
   //Initial floating image height
   imgHeight = 700;
 
+  //Initial camera position
   rover.position.y = 19000;
 
 } // Begin draw
 
 function draw() { //Begin draw
-
   noStroke();
   rots++;
-
-  rover.position.y = -300;
-
-
-
-
-  //Lock the player camera height
-
   lockHeight();
+  progressDialogue();
+  vibrateSkyText();
+  changeLevels();
+  displayInventory();
+  drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
+  drawFloatingObjects(rots);
+  weaponBob(weapx);
+} //End Draw
 
+
+function progressDialogue() {
   if (rover.position.y === -300) {
     //Timing for changing the bottom text box counter (put into function)
     if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
@@ -279,21 +276,7 @@ function draw() { //Begin draw
       displayAlert = false;
     }
   }
-
-
-  vibrateSkyText();
-
-  changeLevels();
-
-  displayInventory();
-  drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
-  drawFloatingObjects(rots);
-  weaponBob(weapx);
-
-  console.log(mouseX, mouseY)
-
-
-} //End Draw
+}
 
 function weaponBob() {
   if (keyIsDown(87) || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
@@ -407,7 +390,6 @@ function generateImgLocs() {
 
 //Displays the images which float up from the ground and reset once they reach a certain height
 function drawImgs(img1, img2) {
-
   if (imgHeight <= 700) {
     imgHeight -= 5;
   }
@@ -436,7 +418,6 @@ function drawImgs(img1, img2) {
 
 //Restricts the player movement in Level 1 so that they can't walk through the walls until the dialogue has finished
 function levelOneRestrictMovement() {
-
   if (rover.position.x > 29500) {
     rover.position.x = 29500;
   }
@@ -580,7 +561,6 @@ function drawLevelTwoTube() {
 }
 
 function drawEndingSequence() {
-
   if (frameCount % endingSequenceSpeed === 0 && endingSequence <= 8) {
     endingSequence++
   } else if (frameCount % endingSequenceSpeed === 0) {
@@ -612,10 +592,6 @@ function drawEndingSequence() {
       // rotateZ(radians(90));
       rotateY(radians(rots * 2));
       box(1300, 700, 1300);
-      // translate(500, 0, 0)
-      // sphere(300);
-      // translate(400, 0, 0)
-      // sphere(200);
       break;
     case 4:
       levelFour.display();
@@ -639,13 +615,8 @@ function drawEndingSequence() {
       drawLevelFourBuildings();
       translate(0, -230, 0)
       texture(ancientPot);
-      // rotateZ(radians(90));
       rotateY(radians(rots * 2));
       box(1300, 700, 1300);
-      // translate(500, 0, 0)
-      // sphere(300);
-      // translate(400, 0, 0)
-      // sphere(200);
       break;
     case 7:
       levelTwo.display();
@@ -664,7 +635,6 @@ function drawEndingSequence() {
 }
 
 function displayInventory() {
-  //inventory array (put into function)
   push();
   camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
   ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
@@ -673,10 +643,10 @@ function displayInventory() {
   noFill();
   stroke(207, 181, 59);
   strokeWeight(6);
-  for (let i = 0; i < 5; i++) { //INCLUDE IF STATEMENT CHECKING FOR GRAVEYARD
+
+  for (let i = 0; i < 5; i++) {
     if (itemArr[i] === undefined) {
       image(clear, width - 100, i * 100, 70, 70);
-
     } else if (itemArr[i] === graveyard) {
       image(graveyard, width - 100, 0, itemX, itemY);
       image(frame, width - 100, 0, itemFrameX, itemFrameY);
@@ -686,11 +656,7 @@ function displayInventory() {
       image(frame, width - 100, i * 100 + 100, 75, 75)
     }
   }
-
   pop();
-
-
-
 }
 
 //Controls the footstep sound when pressing/releasing WASD keys

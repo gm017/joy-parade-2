@@ -3,7 +3,6 @@ function changeLevels() {
     if (levelCounter === 0) {
         levelOne.display()
 
-
         if (rover.position.y === -300) {
             drawImgs(deaconClear, juliette);
             drawBottomText(scriptsArr[levelCounter], rayna);
@@ -30,8 +29,6 @@ function changeLevels() {
                 texture(towerFloor);
                 plane(5000, 5000);
             }
-
-
             pop();
 
             if (rover.position.x > 2000) {
@@ -47,22 +44,15 @@ function changeLevels() {
                 rover.position.z = -2000
             }
 
-            console.log(rover.position.y)
-
         } else if (lockPlayerHeight = true) {
             liftSequence = false;
         }
-
-        console.log(lockPlayerHeight)
 
         push();
         texture(lift);
         translate(0, 10000, 0);
         box(5000, 20000, 5000);
         pop();
-
-
-
 
         drawWeapon(arm);
         levelOne.showLevelNumber();
@@ -85,28 +75,17 @@ function changeLevels() {
                 scriptTimer = 0;
             }
         }
-
-
-
-
-
-
     }
 
     if (levelCounter === 1) {
         levelTwo.display();
         drawLevelTwoTube();
-
         drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
         levelTwoRestrictMovement();
         drawBottomText(scriptsArr[levelCounter], avery);
-
         car.display();
         car.playerCollect();
-
-
-
         drawWeapon(hammer);
 
         if (displayAlert === true) {
@@ -146,7 +125,6 @@ function changeLevels() {
 
             if (displayAlert === true) {
                 scriptTimer = 0;
-                // alertsCount += 2;
                 scriptCount = 3;
                 rover.position.x = 0;
                 rover.position.z = 0;
@@ -163,7 +141,6 @@ function changeLevels() {
     }
 
     if (levelCounter === 3) {
-
         levelFour.display();
         drawLevelFourBuildings();
         levelFour.showLevelNumber();
@@ -190,7 +167,6 @@ function changeLevels() {
                 levelCounter = 4;
             }
         }
-
         drawWeapon(arm);
     }
 
@@ -204,5 +180,3 @@ function changeLevels() {
         drawWeapon(arm);
     }
 }
-
-
