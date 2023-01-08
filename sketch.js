@@ -140,6 +140,7 @@ let car;
 let watch;
 let tank;
 let graveyard;
+let water;
 let itemArr = [];
 
 //Location and size of graveyard video when in player inventory
@@ -150,7 +151,9 @@ let itemFrameY = 75;
 
 function preload() {    //Preload images, text files and audio
   graveyard = createVideo('vid/graveyard.mp4');
+  water = createVideo('vid/water.mp4');
   graveyard.hide();
+  water.hide();
   clear = loadImage('img/clear.png')
   floor = loadImage('img/floor.jpg');
   flag = loadImage('img/flag.jpg');
@@ -240,6 +243,7 @@ function setup() {    //Begin setup
   watch = new Item(2000, -300, 2000, santosItem);
   tank = new Item(2000, -300, 2000, tank);
   grave = new Item(0, -300, -5000, graveyard);
+  waterItem = new Item(0, -300, -500, water);
 
   //Initial floating image height
   imgHeight = 700;
@@ -250,6 +254,8 @@ function setup() {    //Begin setup
 } // Begin draw
 
 function draw() { //Begin draw
+
+  rover.position.y = -300;
   noStroke();
   rots++;
   lockHeight();
@@ -650,6 +656,9 @@ function displayInventory() {
     } else if (itemArr[i] === graveyard) {
       image(graveyard, width - 100, 0, itemX, itemY);
       image(frame, width - 100, 0, itemFrameX, itemFrameY);
+    } else if (itemArr[i] === water) {
+      image(graveyard, width - 100, 0, itemX, itemY);
+      image(frame, width - 100, 0, itemFrameX, itemFrameY);
     }
     else {
       image(itemArr[i], width - 100, i * 100 + 100, 70, 70)
@@ -662,7 +671,6 @@ function displayInventory() {
 //Controls the footstep sound when pressing/releasing WASD keys
 //Puts the game into fullscreen if they press the enter key
 function keyPressed() {
-
   if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
     footsteps.loop();
   }
@@ -681,6 +689,7 @@ function keyPressed() {
 
   if (levelCounter === 4) {
     graveyard.loop();
+    water.loop();
   }
 }
 

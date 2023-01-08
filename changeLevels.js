@@ -174,8 +174,15 @@ function changeLevels() {
         drawEndingSequence();
         drawImgs(kingfisher, ancientPot);
         levelFive.showLevelNumber();
-        grave.display();
-        grave.playerCollect();
+
+        if (itemArr.length <= 3) {
+            grave.display();
+            grave.playerCollect();
+        } else {
+            waterItem.display();
+            waterItem.playerCollect();
+        }
+
         drawBottomText(scriptsArr[levelCounter], arm);
         drawWeapon(arm);
     }
