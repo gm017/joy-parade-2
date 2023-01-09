@@ -86,7 +86,7 @@ let liftSequence = true;
 let skyTimer = 0;
 let scriptTimer = 0;
 let scriptTimerFrames = 200;
-let levelCounter = 0;
+let levelCounter = 4;
 let scriptCount = 0;
 let alertsCount = 0;
 let alertColCount = 0;
@@ -148,6 +148,9 @@ let itemX = 70;
 let itemY = 70;
 let itemFrameX = 75;
 let itemFrameY = 75;
+let itemLocX;
+let itemLocY = 0;
+
 
 function preload() {    //Preload images, text files and audio
   graveyard = createVideo('vid/graveyard.mp4');
@@ -251,6 +254,8 @@ function setup() {    //Begin setup
   //Initial camera position
   rover.position.y = 19000;
 
+  itemLocX = width - 100
+
 } // Begin draw
 
 function draw() { //Begin draw
@@ -300,7 +305,6 @@ function drawAlert(col, opac, txt1, txt2) {
   if (displayAlert === true) {
     camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
     ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-    // fill(255, 239, 213, 200);
     translate(-500, -300, 0);
     fill(col);
     text(txt1, 100, 0);
@@ -322,7 +326,6 @@ function drawBottomText(txt, portrait) {
     translate(-600, 490, 0);
     rect(0, -180, 1200, 160);
     textSize(30);
-    // fill(0, 250, 250);
     fill(0);
     text(txt[scriptTimer], 170, -1 - 120);
     text(txt[scriptTimer + 1], 170, -1 - 60);
@@ -595,7 +598,6 @@ function drawEndingSequence() {
       levelOne.display();
       translate(0, -230, 0)
       texture(ancientPot);
-      // rotateZ(radians(90));
       rotateY(radians(rots * 2));
       box(1300, 700, 1300);
       break;
@@ -640,23 +642,39 @@ function drawEndingSequence() {
 
 }
 
+
 function displayInventory() {
   push();
   camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
   ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-  fill(0, 0, 213);
   translate(-950, -350, 0);
-  noFill();
-  stroke(207, 181, 59);
-  strokeWeight(6);
 
   for (let i = 0; i < 5; i++) {
     if (itemArr[i] === undefined) {
       image(clear, width - 100, i * 100, 70, 70);
-    } else if (itemArr[i] === graveyard) {
-      image(graveyard, width - 100, 0, itemX, itemY);
-      image(frame, width - 100, 0, itemFrameX, itemFrameY);
+    } else if (itemArr[i] === graveyard) { //PUT MOVEMENT STUFF IN FUNCTION
+      image(graveyard, itemLocX, itemLocY, itemX, itemY);
+      image(frame, itemLocX, itemLocY, itemFrameX, itemFrameY);
+      setTimeout(() => {
+        hideWeapon = true;
+        if (itemLocX > 0) {
+          itemLocX -= 4;
+        }
+        if (itemLocY > -180) {
+          itemLocY -= 0.4;
+        }
+        if (itemX < 1900) {
+          itemX += 3;
+          itemFrameX += 3;
+        }
+        if (itemY < 1050) {
+          itemY += 3;
+          itemFrameY += 3;
+        }
+      }, 2000);
+
     } else if (itemArr[i] === water) {
+      hideWeapon = true;
       image(graveyard, width - 100, 0, itemX, itemY);
       image(frame, width - 100, 0, itemFrameX, itemFrameY);
     }
