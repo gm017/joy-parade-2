@@ -20,7 +20,6 @@
 //Variable for rovercam
 let rover;
 
-
 //Images
 let clear;
 let frame;
@@ -86,7 +85,7 @@ let liftSequence = true;
 let skyTimer = 0;
 let scriptTimer = 0;
 let scriptTimerFrames = 200;
-let levelCounter = 4;
+let levelCounter = -1;
 let scriptCount = 0;
 let alertsCount = 0;
 let alertColCount = 0;
@@ -200,7 +199,7 @@ function preload() {    //Preload images, text files and audio
   levelTwoMusic = loadSound('audio/leveltwo.mp3');
   levelThreeMusic = loadSound('audio/levelthree.mp3');
   levelFourMusic = loadSound('audio/levelfour.mp3');
-  graceMonologue = loadSound('audio/grace-monologue.mp3');
+  graceMonologue = loadSound('audio/grace-louder.mp3');
   textChange = loadSound('audio/textchange.wav');
   fanfare = loadSound('audio/fanfare.mp3');
 }
@@ -229,6 +228,7 @@ function setup() {    //Begin setup
   //Initial font settings
   textFont(gliderGirls);
   textSize(50);
+
 
   //Starts music for the first stage
   levelOneMusic.loop();
@@ -260,7 +260,7 @@ function setup() {    //Begin setup
 
 function draw() { //Begin draw
 
-  rover.position.y = -300;
+  // rover.position.y = -300;
   noStroke();
   rots++;
   lockHeight();
@@ -642,7 +642,6 @@ function drawEndingSequence() {
 
 }
 
-
 function displayInventory() {
   push();
   camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
@@ -655,28 +654,11 @@ function displayInventory() {
     } else if (itemArr[i] === graveyard) { //PUT MOVEMENT STUFF IN FUNCTION
       image(graveyard, itemLocX, itemLocY, itemX, itemY);
       image(frame, itemLocX, itemLocY, itemFrameX, itemFrameY);
-      setTimeout(() => {
-        hideWeapon = true;
-        if (itemLocX > 0) {
-          itemLocX -= 4;
-        }
-        if (itemLocY > -180) {
-          itemLocY -= 0.4;
-        }
-        if (itemX < 1900) {
-          itemX += 3;
-          itemFrameX += 3;
-        }
-        if (itemY < 1050) {
-          itemY += 3;
-          itemFrameY += 3;
-        }
-      }, 2000);
-
+      expandFrame();
     } else if (itemArr[i] === water) {
-      hideWeapon = true;
-      image(graveyard, width - 100, 0, itemX, itemY);
-      image(frame, width - 100, 0, itemFrameX, itemFrameY);
+      image(water, itemLocX, itemLocY, itemX, itemY);
+      image(frame, itemLocX, itemLocY, itemFrameX, itemFrameY);
+      expandFrame();
     }
     else {
       image(itemArr[i], width - 100, i * 100 + 100, 70, 70)
@@ -684,6 +666,29 @@ function displayInventory() {
     }
   }
   pop();
+}
+
+function expandFrame() {
+  setTimeout(() => {
+    hideWeapon = true;
+    if (itemLocX > 0) {
+      itemLocX -= 4;
+    }
+    if (itemLocY > -180) {
+      itemLocY -= 0.4;
+    }
+    if (itemX < 1900) {
+      itemX += 3;
+      itemFrameX += 3;
+    }
+    if (itemY < 1050) {
+      itemY += 3;
+      itemFrameY += 3;
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 34000)
+  }, 7000);
 }
 
 //Controls the footstep sound when pressing/releasing WASD keys

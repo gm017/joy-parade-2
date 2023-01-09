@@ -1,5 +1,19 @@
 //Controls the level progression system
 function changeLevels() {
+    if (levelCounter === -1) {
+        push();
+        camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+        ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+        translate(-500, -300, 0);
+        strokeWeight(20);
+        fill(0, 150, 255);
+        text("One, I Love You", 100, 0);
+        pop();
+        setTimeout(() => {
+            levelCounter = 0;
+        }, 3000);
+    }
+
     if (levelCounter === 0) {
         levelOne.display()
 
@@ -146,6 +160,7 @@ function changeLevels() {
         levelFour.showLevelNumber();
         tank.display();
         tank.playerCollect();
+        levelFourMusic.setVolume(0.6)
 
         if (graceMonologue.isPlaying() === true) {
             drawCentreImage(graceText);
@@ -174,6 +189,7 @@ function changeLevels() {
         drawEndingSequence();
         drawImgs(kingfisher, ancientPot);
         levelFive.showLevelNumber();
+
 
         if (itemArr.length <= 3) {
             grave.display();
