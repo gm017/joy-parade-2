@@ -1,21 +1,36 @@
 
 // - - - - - - - - - - - - - - - - - - - - - - -
+
 //"One, I Love You"
 //Gabriel Manzi
 
-//Images in the game taken from google image searches: "nashville (character) tv show", "hand holding (object)", "arm with watch stock image", "cartier santos on wrist" and "Nashville movie flag"
-//Using Rovercam for the camera controls https://github.com/freshfork/p5.RoverCam
-//Some functions adapted from the Mazerunner game example on the rovercam github (these are noted in the comments next to them)
-//Juliette Barnes voiced by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
+//Images in the game taken from google image searches: 
+//"nashville (character) tv show", "hand holding hammer", "arm with watch stock image", "kingfisher", "cartier santos on wrist", "cartier santos", "ancient pot", "mazda mx5", "fish tank" and "Nashville movie flag"
+
+//Using Rovercam for the camera controls: https://github.com/freshfork/p5.RoverCam
+
+//Some functions adapted from the Mazerunner game example linked on the rovercam github - these two lines:
+// camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+//ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+//(they are pointed out in the functions that they are used in)
+
+//Any code not in sketch.js is in level.js, item.js or changeLevels.js
+
+//Voice acting done by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
+
+//HOW TO PLAY:
 
 //Control the player character with WASD and look around with the mouse
 //Press the enter key to make the game full screen
-//Any code not in sketch.js is in level.js, item.js or changeLevels.js
-//There is a walkthrough for the game in the files 
+//Try to collect all the items
+//There is a walkthrough for the game in cheats folder
+
 // - - - - - - - - - - - - - - - - - - - - - - -
 
-//Declare variables
 
+
+
+//Declare variables
 
 //Variable for rovercam
 let rover;
@@ -238,7 +253,7 @@ function setup() {    //Begin setup
   levelTwo = new Level(600, 160000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
-  levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFourBg, "8 - ONe")
+  levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFourBg, "8 - TANk")
 
   //Create new collectible items from the item class
   pot = new Item(150, -300, 6000, potItem);
