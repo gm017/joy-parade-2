@@ -121,7 +121,7 @@ let script5;
 let gliderGirls;
 let bottomText;
 let alerts = [];
-let skyText = [["i", "i am", "i'll never"], ["love", "thinking", "let"], ["you", "of you", "you go!"]];
+let skyText = [["i", "i am", "i'll never"], ["One, I love you", "thinking", "okay!"], ["you", "of you", "you go!"]];
 
 //Background colours
 let backgroundColours = {
@@ -360,13 +360,15 @@ function drawFloatingObjects(rots) {
   fill(0);
   translate(-700, -230, 0);
   rotateX(radians(rots));
-  rotateZ(radians(rots));
-  rotateY(radians(rots));
-  for (let i = 0; i < 10; i++) {
-    image(sky, 450 + (i * rots / 100), -180, 10, 100);
+  // rotateZ(radians(rots));
+  // rotateY(radians(rots));
+  if (levelCounter === -1) {
+    for (let i = 0; i < 10; i++) {
+      image(sky, 450 + (i * rots / 100), -180, 10, 100);
+    }
   }
-  rotateZ(radians(- rots));
-  rotateY(radians(rots));
+  rotateZ(radians(rots / 3));
+  rotateY(radians(rots / 3));
   image(sky, 950, -180, 10, 100);
   textSize(30);
   fill(0, 250, 250);
@@ -486,6 +488,7 @@ function drawSkyText(txt, vib1, vib2, vib3) {
   } else if (frameCount % 200 === 0) {
     skyTimer = 0;
   }
+
 
   push();
   fill(0, 255, 0);
