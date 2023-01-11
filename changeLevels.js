@@ -11,7 +11,7 @@ function changeLevels() {
         pop();
         setTimeout(() => {
             levelCounter = 0;
-        }, 3000);
+        }, 10000);
     }
 
     if (levelCounter === 0) {
@@ -119,7 +119,7 @@ function changeLevels() {
             displayAlert = false;
             setTimeout(() => {
                 levelThreeMusic.loop();
-            }, 51000)
+            }, 47000)
         }
     }
 
@@ -180,6 +180,7 @@ function changeLevels() {
                 rover.position.z = 0;
                 levelFourMusic.stop();
                 levelCounter = 4;
+                levelFiveMusic.loop();
             }
         }
         drawWeapon(arm);

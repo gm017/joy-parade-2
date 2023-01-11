@@ -81,6 +81,7 @@ let playerHeight = -300;
 
 //Audio
 let footsteps;
+let liftMusic;
 let julietteMonologue;
 let graceMonologue;
 let levelOneMusic;
@@ -214,8 +215,10 @@ function preload() {    //Preload images, text files and audio
   levelTwoMusic = loadSound('audio/leveltwo.mp3');
   levelThreeMusic = loadSound('audio/levelthree.mp3');
   levelFourMusic = loadSound('audio/levelfour.mp3');
+  levelFiveMusic = loadSound('audio/ive-got-wheels.mp3');
   graceMonologue = loadSound('audio/grace-louder.mp3');
   textChange = loadSound('audio/textchange.wav');
+  liftMusic = loadSound('audio/liftmusic.mp3');
   fanfare = loadSound('audio/fanfare.mp3');
 }
 
@@ -227,8 +230,8 @@ function setup() {    //Begin setup
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    // speed: 5.6 //True game speed
-    speed: 30 //testing speed
+    speed: 5.6 //True game speed
+    // speed: 30 //testing speed
   });
 
   scriptsArr = [script1, script2, script3, script4, script5];
@@ -466,6 +469,13 @@ function levelTwoRestrictMovement() {
   if (rover.position.x < -200) {
     rover.position.x = -200;
   }
+  if (rover.position.z > 79500) {
+    rover.position.z = 79500;
+  }
+  if (rover.position.z < -79500) {
+    rover.position.z = -79500;
+  }
+
 }
 
 function lockHeight() {
