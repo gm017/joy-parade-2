@@ -22,7 +22,7 @@
 
 //Control the player character with WASD and look around with the mouse
 //Press the enter key to make the game full screen
-//Try to collect all the items
+//Collect all the items for the good ending
 //There is a walkthrough for the game in cheats folder
 
 // - - - - - - - - - - - - - - - - - - - - - - -
