@@ -92,6 +92,7 @@ let levelFiveMusic;
 let textChange;
 let fanfare;
 
+
 //Toggle locking player control
 let lockControl = false;
 let lockPlayerHeight = true;
@@ -215,7 +216,7 @@ function preload() {    //Preload images, text files and audio
   levelTwoMusic = loadSound('audio/leveltwo.mp3');
   levelThreeMusic = loadSound('audio/levelthree.mp3');
   levelFourMusic = loadSound('audio/levelfour.mp3');
-  levelFiveMusic = loadSound('audio/ive-got-wheels.mp3');
+  levelFiveMusic = loadSound('audio/tanksiren.mp3');
   graceMonologue = loadSound('audio/grace-louder.mp3');
   textChange = loadSound('audio/textchange.wav');
   liftMusic = loadSound('audio/liftmusic.mp3');
