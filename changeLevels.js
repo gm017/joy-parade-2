@@ -6,7 +6,7 @@ function changeLevels() {
         translate(-500, -300, 0);
         strokeWeight(20);
         fill(0, 150, 255);
-        text("any key to begin", 100, 0);
+        text("b key to start", 100, 0);
         pop();
     }
 
@@ -212,5 +212,18 @@ function changeLevels() {
 
         drawBottomText(scriptsArr[levelCounter], arm);
         drawWeapon(arm);
+    }
+
+    if (levelCounter === 5) {
+        background(255);
+        push();
+        stickDisplays();
+        translate(-500, -300, 0);
+        strokeWeight(20);
+        fill(0, 150, 255);
+        text("Thanks for playing :)", 100, 0);
+        translate(200, 200, 0);
+        image(sky, 0, 0, 500, 500);
+        pop();
     }
 }

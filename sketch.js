@@ -252,11 +252,6 @@ function setup() {    //Begin setup
   textFont(gliderGirls);
   textSize(50);
 
-
-  //Starts music for the first stage
-  siren.loop();
-
-
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, averyFilter, backgroundColours.levelOneBg, "7 - ONe");
   levelTwo = new Level(600, 160000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
@@ -303,7 +298,9 @@ function progressDialogue() {
     //Timing for changing the bottom text box counter (put into function)
     if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
       displayTextBox = false;
-      displayAlert = true;
+      if (levelCounter != 5) {
+        displayAlert = true;
+      }
     } else if (frameCount % scriptTimerFrames === 0 && julietteMonologue.isPlaying() === false) {
       scriptTimer += 2;
       textChange.play();
@@ -714,8 +711,20 @@ function expandFrame() {
       itemFrameY += 3;
     }
     setTimeout(() => {
-      window.location.reload();
-    }, 34000)
+      if (levelCounter === 4) {
+        itemX = 70;
+        itemY = 70;
+        itemFrameX = 75;
+        itemFrameY = 75;
+        itemLocX = width - 100;
+        itemLocY = 0;
+        itemArr = [];
+        levelFiveMusic.stop();
+        siren.loop();
+        displayAlert = false;
+        levelCounter = 5;
+      }
+    }, 37000)
   }, 7000);
 }
 
@@ -748,7 +757,8 @@ function keyPressed() {
     water.loop();
   }
 
-  if (levelCounter === -2) {
+  if (levelCounter === -2 && keyCode === 66) {
+    siren.loop();
     levelCounter = -1;
     background(255);
     setTimeout(() => {
