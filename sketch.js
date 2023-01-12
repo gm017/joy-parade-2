@@ -91,6 +91,7 @@ let levelFourMusic;
 let levelFiveMusic;
 let textChange;
 let fanfare;
+let siren;
 
 
 //Toggle locking player control
@@ -216,11 +217,12 @@ function preload() {    //Preload images, text files and audio
   levelTwoMusic = loadSound('audio/leveltwo.mp3');
   levelThreeMusic = loadSound('audio/levelthree.mp3');
   levelFourMusic = loadSound('audio/levelfour.mp3');
-  levelFiveMusic = loadSound('audio/tanksiren.mp3');
+  levelFiveMusic = loadSound('audio/ive-got-wheels.mp3');
   graceMonologue = loadSound('audio/grace-louder.mp3');
   textChange = loadSound('audio/textchange.wav');
   liftMusic = loadSound('audio/liftmusic.mp3');
   fanfare = loadSound('audio/fanfare.mp3');
+  siren = loadSound('audio/tanksiren.mp3');
 }
 
 function setup() {    //Begin setup
@@ -250,7 +252,10 @@ function setup() {    //Begin setup
 
 
   //Starts music for the first stage
-  levelOneMusic.loop();
+  siren.loop();
+  setTimeout(() => {
+    levelOneMusic.loop();
+  }, 10000)
 
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, averyFilter, backgroundColours.levelOneBg, "7 - ONe");

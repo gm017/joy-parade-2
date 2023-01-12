@@ -13,7 +13,7 @@ class Item {
             translate(this.locX, this.locY, this.locZ);
             rotateY(radians(rots));
             texture(this.img);
-            box(500, 500);
+            box(200, 500, 50);
             pop();
         }
     }

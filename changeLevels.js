@@ -10,6 +10,7 @@ function changeLevels() {
         text("One, I Love You", 100, 0);
         pop();
         setTimeout(() => {
+            siren.stop();
             levelCounter = 0;
         }, 10000);
     }
