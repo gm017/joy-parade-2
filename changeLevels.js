@@ -1,9 +1,18 @@
 //Controls the level progression system
 function changeLevels() {
+    if (levelCounter === -2) {
+        push();
+        stickDisplays();
+        translate(-500, -300, 0);
+        strokeWeight(20);
+        fill(0, 150, 255);
+        text("any key to begin", 100, 0);
+        pop();
+    }
+
     if (levelCounter === -1) {
         push();
-        camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-        ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+        stickDisplays();
         translate(-500, -300, 0);
         strokeWeight(20);
         fill(0, 150, 255);

@@ -1,33 +1,33 @@
 
-// - - - - - - - - - - - - - - - - - - - - - - -
+/*
+- - - - - - - - - - - - - - - - - - - - - - -
 
-//"One, I Love You"
-//Gabriel Manzi
+"One, I Love You"
+Gabriel Manzi
 
-//Images in the game taken from google image searches: 
-//"nashville (character) tv show", "hand holding hammer", "arm with watch stock image", "kingfisher", "cartier santos on wrist", "cartier santos", "ancient pot", "mazda mx5", "fish tank" and "Nashville movie flag"
+Images in the game taken from google image searches: 
+"nashville (character) tv show", "hand holding hammer", "arm with watch stock image", "kingfisher", "cartier santos on wrist", "cartier santos", "ancient pot", "mazda mx5", "fish tank" and "Nashville movie flag"
 
-//Using Rovercam for the camera controls: https://github.com/freshfork/p5.RoverCam
+Using Rovercam for the camera controls: https://github.com/freshfork/p5.RoverCam
 
-//Some functions adapted from the Mazerunner game example linked on the rovercam github - these two lines:
-// camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-//ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-//(they are pointed out in the functions that they are used in)
+The function stickDisplays() uses a couple of lines of code taken from the Mazerunner game example linked from the rovercam github page:
+camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
 
-//Any code not in sketch.js is in level.js, item.js or changeLevels.js
+Any code not in sketch.js is in level.js, item.js or changeLevels.js
 
-//Voice acting done by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
+Voice acting done by Katy (Stage 7 - Three) and Grace (Stage 7 - Tower)
 
-//HOW TO PLAY:
+HOW TO PLAY:
 
-//Control the player character with WASD and look around with the mouse
-//Press the enter key to make the game full screen
-//Collect all the items for the good ending
-//There is a walkthrough for the game in cheats folder
+Control the player character with WASD and look around with the mouse
+Press the enter key to make the game full screen
+Collect all the items for the good ending
+There is a walkthrough for the game in cheats folder
 
-// - - - - - - - - - - - - - - - - - - - - - - -
+- - - - - - - - - - - - - - - - - - - - - - -
 
-
+*/
 
 
 //Declare variables
@@ -93,17 +93,18 @@ let textChange;
 let fanfare;
 let siren;
 
-
 //Toggle locking player control
 let lockControl = false;
 let lockPlayerHeight = true;
+
+//If lift sequence is currently happening
 let liftSequence = true;
 
 //Counters, settings etc.
 let skyTimer = 0;
 let scriptTimer = 0;
 let scriptTimerFrames = 200;
-let levelCounter = -1;
+let levelCounter = -2;
 let scriptCount = 0;
 let alertsCount = 0;
 let alertColCount = 0;
@@ -131,7 +132,8 @@ let backgroundColours = {
   levelOneBg: [0, 30, 200],
   levelTwoBg: [0, 10, 20],
   levelThreeBg: [0, 0, 20],
-  levelFourBg: [0, 50, 20]
+  levelFourBg: [0, 50, 20],
+  levelFiveBg: [0, 90, 35]
 }
 
 //Alert text colours
@@ -253,24 +255,22 @@ function setup() {    //Begin setup
 
   //Starts music for the first stage
   siren.loop();
-  setTimeout(() => {
-    levelOneMusic.loop();
-  }, 10000)
+
 
   //Create new levels from the Level class
   levelOne = new Level(60000, 60000, floor, averyFilter, backgroundColours.levelOneBg, "7 - ONe");
   levelTwo = new Level(600, 160000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
-  levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFourBg, "8 - TANk")
+  levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFiveBg, "8 - TANk")
 
   //Create new collectible items from the item class
   pot = new Item(150, -300, 6000, potItem);
   car = new Item(0, -300, -10000, mx5);
   watch = new Item(2000, -300, 2000, santosItem);
   tank = new Item(2000, -300, 2000, tank);
-  grave = new Item(0, -300, -5000, graveyard);
-  waterItem = new Item(0, -300, -500, water);
+  grave = new Item(0, -300, -10000, graveyard);
+  waterItem = new Item(0, -300, 10500, water);
 
   //Initial floating image height
   imgHeight = 700;
@@ -278,7 +278,7 @@ function setup() {    //Begin setup
   //Initial camera position
   rover.position.y = 19000;
 
-  itemLocX = width - 100
+  itemLocX = width - 100;
 
 } // Begin draw
 
@@ -327,8 +327,7 @@ function drawAlert(col, opac, txt1, txt2) {
 
   push();
   if (displayAlert === true) {
-    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+    stickDisplays();
     translate(-500, -300, 0);
     fill(col);
     text(txt1, 100, 0);
@@ -344,8 +343,7 @@ function drawAlert(col, opac, txt1, txt2) {
 function drawBottomText(txt, portrait) {
   if (displayTextBox === true) {
     push();
-    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+    stickDisplays();
     fill(255, 239, 213, 200);
     translate(-600, 490, 0);
     rect(0, -180, 1200, 160);
@@ -364,8 +362,7 @@ function drawBottomText(txt, portrait) {
 //https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
 function drawFloatingObjects(rots) {
   push();
-  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  stickDisplays();
   fill(0);
   translate(-700, -230, 0);
   rotateX(radians(rots));
@@ -390,8 +387,7 @@ function drawFloatingObjects(rots) {
 function drawWeapon(weap) {
   if (!hideWeapon) {
     push();
-    camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-    ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+    stickDisplays();
     translate(-600, 390, 0);
     tint(200, 0, 255);
     rotateY(radians(-40));
@@ -405,8 +401,7 @@ function drawWeapon(weap) {
 //https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
 function drawCentreImage(img) {
   push();
-  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  stickDisplays();
   translate(-600, 390, 0);
   rotateY(radians(-40));
   image(img, 10, -900, 650, 350);
@@ -678,8 +673,7 @@ function drawEndingSequence() {
 
 function displayInventory() {
   push();
-  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+  stickDisplays();
   translate(-950, -350, 0);
 
   for (let i = 0; i < 5; i++) {
@@ -725,6 +719,11 @@ function expandFrame() {
   }, 7000);
 }
 
+function stickDisplays() {
+  camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+  ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
+}
+
 //Controls the footstep sound when pressing/releasing WASD keys
 //Puts the game into fullscreen if they press the enter key
 function keyPressed() {
@@ -747,6 +746,14 @@ function keyPressed() {
   if (levelCounter === 4) {
     graveyard.loop();
     water.loop();
+  }
+
+  if (levelCounter === -2) {
+    levelCounter = -1;
+    background(255);
+    setTimeout(() => {
+      levelOneMusic.loop();
+    }, 10000)
   }
 }
 
