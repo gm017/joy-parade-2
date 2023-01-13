@@ -16,7 +16,7 @@ function changeLevels() {
         translate(-500, -300, 0);
         strokeWeight(20);
         fill(0, 150, 255);
-        text("One, I Love You", 100, 0);
+        text("Joy Parade", 100, 0);
         pop();
         setTimeout(() => {
             siren.stop();
