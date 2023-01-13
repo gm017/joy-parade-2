@@ -239,11 +239,11 @@ function setup() {    //Begin setup
     // speed: 30 //testing speed
   });
 
-  scriptsArr = [script1, script2, script3, script4, script5];
+  scriptsArr = [script1, script2, script3, script4, script5]; //Array containing the scripts for each level
   alertColOne = color(0, alertOpacity);
   alertColTwo = color(0, 0, 255, alertOpacity);
   alertColThree = color(255, 0, 0, alertOpacity);
-  alertColours = [alertColOne, alertColTwo, alertColThree];
+  alertColours = [alertColOne, alertColTwo, alertColThree];  //Array containing the alert text colours
 
   //Random locations for floating images
   generateImgLocs();
@@ -252,14 +252,14 @@ function setup() {    //Begin setup
   textFont(gliderGirls);
   textSize(50);
 
-  //Create new levels from the Level class
+  //Create new levels from the Level class - Size of the floor plane, textures for floor and walls, background colours and level name text
   levelOne = new Level(60000, 60000, floor, averyFilter, backgroundColours.levelOneBg, "7 - ONe");
   levelTwo = new Level(600, 160000, flag, arch, backgroundColours.levelTwoBg, "7 - TWo");
   levelThree = new Level(190000, 190000, flagFilter, juliette, backgroundColours.levelThreeBg, "7 - THRee");
   levelFour = new Level(3000, 3000, towerFloor, juliette, backgroundColours.levelFourBg, "7 - Tower");
   levelFive = new Level(1, 1, juliette, towerFloor, backgroundColours.levelFiveBg, "8 - TANk")
 
-  //Create new collectible items from the item class
+  //Create new collectible items from the item class - Location and image/video
   pot = new Item(150, -300, 6000, potItem);
   car = new Item(0, -300, -10000, mx5);
   watch = new Item(2000, -300, 2000, santosItem);
@@ -281,21 +281,21 @@ function draw() { //Begin draw
 
   // rover.position.y = -300;
   noStroke();
-  rots++;
-  lockHeight();
-  progressDialogue();
-  vibrateSkyText();
-  changeLevels();
-  displayInventory();
-  drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]);
-  drawFloatingObjects(rots);
-  weaponBob(weapx);
+  rots++;                   //Variable used for all animated rotations
+  lockHeight();             //Lock's the player's y position
+  progressDialogue();       //Moves through the dialogue based on a counter going up
+  vibrateSkyText();         //Vibrates the floating text in the first stage
+  changeLevels();           //Controls the linear progression through the game based on conditionals
+  displayInventory();       //Displays the player "inventory" on the right side of the screen once they collect at least one item
+  drawAlert(alertColours[alertColCount], alertOpacity, alerts[alertsCount], alerts[alertsCount + 1]); //Displays the alert text after character dialogue is finished in some stages
+  drawFloatingObjects(rots); //Draws the floating blue circle that flies around
+  weaponBob(weapx);          //Controls the up and down bobbing of the players "weapon" when the player is moving
 } //End Draw
 
 
 function progressDialogue() {
   if (rover.position.y === -300) {
-    //Timing for changing the bottom text box counter (put into function)
+    //Timing for changing the bottom text box counter 
     if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
       displayTextBox = false;
       if (levelCounter != 5) {

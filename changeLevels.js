@@ -221,7 +221,7 @@ function changeLevels() {
         translate(-500, -300, 0);
         strokeWeight(20);
         fill(0, 150, 255);
-        text("Thanks for playing :)", 100, 0);
+        text("Thanks for playing", 100, 0);
         translate(200, 200, 0);
         image(sky, 0, 0, 500, 500);
         pop();
