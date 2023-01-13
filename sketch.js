@@ -56,6 +56,7 @@ let raynaFilter;
 let kingfisher;
 let gun;
 let arm;
+let intempo;
 let arch;
 let ancientPot;
 let deaconClear;
@@ -191,6 +192,7 @@ function preload() {    //Preload images, text files and audio
   sky = loadImage('img/skycircle.png');
   lift = loadImage('img/lift.jpg');
   sword = loadImage('img/energysword.png');
+  intempo = loadImage('img/intempo.png');
   gun = loadImage('img/gun.png');
   arm = loadImage('img/arm-filter.png');
   mx5 = loadImage('img/mx5.jpg');

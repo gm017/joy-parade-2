@@ -78,7 +78,7 @@ function changeLevels() {
         box(5000, 20000, 5000);
         pop();
 
-        drawWeapon(arm);
+        drawWeapon(intempo);
         levelOne.showLevelNumber();
 
         if (displayAlert === false) {
@@ -221,7 +221,7 @@ function changeLevels() {
         translate(-500, -300, 0);
         strokeWeight(20);
         fill(0, 150, 255);
-        text("Thanks for playing :)", 100, 0);
+        text("Thanks for playing", 100, 0);
         translate(200, 200, 0);
         image(sky, 0, 0, 500, 500);
         pop();
