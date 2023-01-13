@@ -162,7 +162,7 @@ let graveyard;
 let water;
 let itemArr = [];
 
-//Location and size of graveyard video when in player inventory
+//Location and size of graveyard/water video and frame when in player inventory - used for enlarging and moving at the end
 let itemX = 70;
 let itemY = 70;
 let itemFrameX = 75;
