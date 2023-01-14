@@ -237,8 +237,8 @@ function setup() {    //Begin setup
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    speed: 5.6 //True game speed
-    // speed: 30 //testing speed
+    // speed: 5.6 //True game speed
+    speed: 30 //testing speed
   });
 
   scriptsArr = [script1, script2, script3, script4, script5]; //Array containing the scripts for each level
@@ -296,23 +296,23 @@ function draw() { //Begin draw
 
 
 function progressDialogue() {
-  if (rover.position.y === -300) {
+  if (rover.position.y === -300) {                           //Checks if the player is at the "normal" height before going through the text, so that it doesn't begin during the opening sequence
     //Timing for changing the bottom text box counter 
-    if (scriptTimer >= scriptsArr[scriptCount].length - 1) {
+    if (scriptTimer >= scriptsArr[scriptCount].length - 1) { // Checks if the script has run out of text and hides the text box if so
       displayTextBox = false;
       if (levelCounter != 5) {
-        displayAlert = true;
+        displayAlert = true; //                              //Displays alert text when dialogue has concluded
       }
     } else if (frameCount % scriptTimerFrames === 0 && julietteMonologue.isPlaying() === false) {
-      scriptTimer += 2;
-      textChange.play();
+      scriptTimer += 2;                                      //Progresses the text shown in the box by checking the framecount and increasing the value of the scriptTimer variable
+      textChange.play();                                     //Plays sound effect when text changes lines
       displayTextBox = true;
       displayAlert = false;
     }
   }
 }
 
-function weaponBob() {
+function weaponBob() {                                       //Checks if movement keys are held down and bobs the player weapon by changing the value of the weapx variable
   if (keyIsDown(87) || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
     if (frameCount % 25 === 0 && weapx === -545) {
       weapx += 10;
@@ -322,7 +322,7 @@ function weaponBob() {
   }
 }
 
-function drawAlert(col, opac, txt1, txt2) {
+function drawAlert(col, opac, txt1, txt2) {                //Draws the alert text on the screen, taking colours from the alertColours variable and text from alerts.txt
 
   push();
   if (displayAlert === true) {
@@ -336,10 +336,9 @@ function drawAlert(col, opac, txt1, txt2) {
 
 }
 
-//Displays the text box and portrait at the bottom of the screen
-//Adapted from Mazerunner example linked from the rovercam github page
-//https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
-function drawBottomText(txt, portrait) {
+
+
+function drawBottomText(txt, portrait) {                 //Displays the text box and portrait at the bottom of the screen
   if (displayTextBox === true) {
     push();
     stickDisplays();
@@ -356,17 +355,13 @@ function drawBottomText(txt, portrait) {
   }
 }
 
-//Displays the floating objects that appear around the field of view
-//Adapted from Mazerunner example linked from the rovercam github page
-//https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
-function drawFloatingObjects(rots) {
+
+function drawFloatingObjects(rots) {                  //Displays the floating objects that appear around the field of view
   push();
   stickDisplays();
   fill(0);
   translate(-700, -230, 0);
   rotateX(radians(rots));
-  // rotateZ(radians(rots));
-  // rotateY(radians(rots));
   if (levelCounter === -1) {
     for (let i = 0; i < 10; i++) {
       image(sky, 450 + (i * rots / 100), -180, 10, 100);
@@ -380,10 +375,7 @@ function drawFloatingObjects(rots) {
   pop();
 }
 
-//Displays the "weapon"/player character arm
-//Adapted from Mazerunner example linked from the rovercam github page
-//https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
-function drawWeapon(weap) {
+function drawWeapon(weap) {                           //Displays the "weapon"/player character arm              
   if (!hideWeapon) {
     push();
     stickDisplays();
@@ -395,10 +387,8 @@ function drawWeapon(weap) {
   }
 }
 
-//Displays the images of text files in stages 7 - Three and 7 - Tower
-//Adapted from Mazerunner example linked from the rovercam github page
-//https://editor.p5js.org/jwdunn1/sketches/iI-2XX0Hw
-function drawCentreImage(img) {
+
+function drawCentreImage(img) {                      //Displays the images of text files in stages 7 - Three and 7 - Tower
   push();
   stickDisplays();
   translate(-600, 390, 0);
@@ -407,8 +397,7 @@ function drawCentreImage(img) {
   pop();
 }
 
-//Generates random positions for the towers that appear in the game
-function generateImgLocs() {
+function generateImgLocs() {                         //Generates random positions for the towers that appear in the game, and pushes them to the imageLocs array
   for (let x = 0; x < 10; x++) {
     for (let z = 0; z < 10; z++) {
       let arr = [random(-30000, 30000), random(-30000, 30000), random(2000, 20000)];
@@ -417,8 +406,8 @@ function generateImgLocs() {
   }
 }
 
-//Displays the images which float up from the ground and reset once they reach a certain height
-function drawImgs(img1, img2) {
+
+function drawImgs(img1, img2) {                     //Displays the images which float up from the ground and reset once they reach a certain height
   if (imgHeight <= 700) {
     imgHeight -= 5;
   }
@@ -445,55 +434,39 @@ function drawImgs(img1, img2) {
   }
 }
 
-//Restricts the player movement in Level 1 so that they can't walk through the walls until the dialogue has finished
-function levelOneRestrictMovement() {
-  if (rover.position.x > 29500) {
-    rover.position.x = 29500;
+
+function restrictMovement(x, z) {             //Restricts the player movement so they can't leave certain areas, taking an argument for the camera positions for x and z
+  if (rover.position.x > x) {
+    rover.position.x = x;
   }
-  if (rover.position.x < -29500) {
-    rover.position.x = -29500;
+  if (rover.position.x < -x) {
+    rover.position.x = -x;
   }
-  if (rover.position.z > 29500) {
-    rover.position.z = 29500;
+  if (rover.position.z > z) {
+    rover.position.z = z;
   }
-  if (rover.position.z < -29500) {
-    rover.position.z = -29500;
+  if (rover.position.z < -z) {
+    rover.position.z = -z;
   }
 }
 
-//Restricts the player movement in Level 2 so that they can't walk off the platform
-function levelTwoRestrictMovement() {
-  if (rover.position.x > 200) {
-    rover.position.x = 200;
-  }
-  if (rover.position.x < -200) {
-    rover.position.x = -200;
-  }
-  if (rover.position.z > 79500) {
-    rover.position.z = 79500;
-  }
-  if (rover.position.z < -79500) {
-    rover.position.z = -79500;
-  }
-
-}
 
 function lockHeight() {
-  if (lockPlayerHeight === true && !liftSequence) {
+  if (lockPlayerHeight === true && !liftSequence) { //Checks to see if the opening lift sequence is happening and locks the players height if not
     rover.position.y = -300;
   }
 }
 
-//Makes the player fly by altering the camera Y position
-function flyPlayer() {
+
+function flyPlayer() {                                //Makes the player fly by altering the camera Y position
   lockPlayerHeight = false;
   rover.position.y -= 20;
 }
 
-//Displays the floating text in the sky which follows the players position based on the camera
-function drawSkyText(txt, vib1, vib2, vib3) {
-  //Loops through the different phrases basesd on the framecount
-  if (frameCount % 200 === 0 && skyTimer < 2) {
+
+function drawSkyText(txt, vib1, vib2, vib3) {    //Displays the floating text in the sky which follows the players position based on the camera
+
+  if (frameCount % 200 === 0 && skyTimer < 2) {   //Loops through the different phrases basesd on the framecount
     skyTimer += 1;
   } else if (frameCount % 200 === 0) {
     skyTimer = 0;
@@ -525,8 +498,8 @@ function drawSkyText(txt, vib1, vib2, vib3) {
   pop();
 }
 
-//Set Sky text vibration
-function vibrateSkyText() {
+
+function vibrateSkyText() { //Set Sky text vibration
   textVib1 = random(0, 5);
   textVib2 = random(0, 3);
   textVib3 = random(0, 2);

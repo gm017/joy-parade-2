@@ -82,7 +82,7 @@ function changeLevels() {
         levelOne.showLevelNumber();
 
         if (displayAlert === false) {
-            levelOneRestrictMovement();
+            restrictMovement(29500, 29500);
         }
 
         if (rover.position.x > 30000 || rover.position.x < -30000 || rover.position.z > 30000 || rover.position.z < -30000) {
@@ -106,7 +106,7 @@ function changeLevels() {
         drawLevelTwoTube();
         drawImgs(raynaFilter, flagFilter);
         levelTwo.showLevelNumber();
-        levelTwoRestrictMovement();
+        restrictMovement(200, 79500);
         drawBottomText(scriptsArr[levelCounter], avery);
         car.display();
         car.playerCollect();
