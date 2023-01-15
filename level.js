@@ -46,23 +46,6 @@ class Level {
         pop();
         return true;
     }
-    drawTextBox() {
-        if (displayTextBox === true) {
-            push();
-            camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-            ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
-            fill(255, 239, 213, 200);
-            translate(-600, 490, 0);
-            rect(0, -180, 1200, 160);
-            textSize(30);
-            fill(0, 250, 250);
-            text(this.script[scriptTimer2], 170, -1 - 120);
-            text(this.script[scriptTimer2 + 1], 170, -1 - 60);
-            tint(200, 0, 255);
-            image(rayna, 5, -175, 150, 150);
-            pop();
-        }
-    }
     showLevelNumber() {
         //Displays stage name/number at the top left of the screen
         push();
