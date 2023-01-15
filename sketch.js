@@ -237,8 +237,8 @@ function setup() {    //Begin setup
     position: [-500, -400, -200],
     rotation: [1.52, 0.2, 0],
     sensitivity: 0.1,
-    // speed: 5.6 //True game speed
-    speed: 30 //testing speed
+    speed: 5.6 //Game speed
+    // speed: 30 //testing speed
   });
 
   scriptsArr = [script1, script2, script3, script4, script5]; //Array containing the scripts for each level
@@ -505,7 +505,7 @@ function vibrateSkyText() { //Set Sky text vibration
   textVib3 = random(0, 2);
 }
 
-function drawLevelFourBuildings() {
+function drawLevelFourBuildings() { //Draws the buildings in the foruth stage
   push();
   translate(0, -2700, 9000);
   rotateZ(radians(rots / 2));
@@ -561,7 +561,7 @@ function drawLevelFourBuildings() {
   pop();
 }
 
-function drawLevelTwoTube() {
+function drawLevelTwoTube() { //Draws the rotating tube in the second stage
   push();
   rotateX(radians(90));
   rotateY(radians(rots));
@@ -570,7 +570,7 @@ function drawLevelTwoTube() {
   pop();
 }
 
-function drawEndingSequence() {
+function drawEndingSequence() { //Uses the framecount to cycle through different scenarios in the fifth stage. The endingSequence variable is increased by 1 unless it reaches 8 then resets. This counter used to cycle through the different scenarios in switch statement The speed of this cycle increases as more cycles occur.
   if (frameCount % endingSequenceSpeed === 0 && endingSequence <= 8) {
     endingSequence++
   } else if (frameCount % endingSequenceSpeed === 0) {
@@ -631,7 +631,7 @@ function drawEndingSequence() {
       levelTwo.display();
       drawLevelTwoTube();
       if (endingSequenceSpeed > 15) {
-        levelTwoRestrictMovement();
+        restrictMovement(200, 79500);
       }
       break;
     case 8:
@@ -643,15 +643,15 @@ function drawEndingSequence() {
 
 }
 
-function displayInventory() {
+function displayInventory() {   //Displays the player inventory that appears on the right side of the screen if they collect an item. 
   push();
   stickDisplays();
   translate(-950, -350, 0);
 
   for (let i = 0; i < 5; i++) {
-    if (itemArr[i] === undefined) {
+    if (itemArr[i] === undefined) { //Clear image if array item is undefined
       image(clear, width - 100, i * 100, 70, 70);
-    } else if (itemArr[i] === graveyard) { //PUT MOVEMENT STUFF IN FUNCTION
+    } else if (itemArr[i] === graveyard) {                            //Checks for graveyard and water elements which act differently and trigger the end of the game. These have variables for their postion that the other items don't so that they can be moved and expanded individually.
       image(graveyard, itemLocX, itemLocY, itemX, itemY);
       image(frame, itemLocX, itemLocY, itemFrameX, itemFrameY);
       expandFrame();
@@ -668,7 +668,7 @@ function displayInventory() {
   pop();
 }
 
-function expandFrame() {
+function expandFrame() { //This function is executed when the player collects the item in the last stage, after 7 seconds the video and frame in the inventory expand to fill the screen. After 30 seconds the game ends.
   setTimeout(() => {
     hideWeapon = true;
     if (itemLocX > 0) {
@@ -703,7 +703,7 @@ function expandFrame() {
   }, 7000);
 }
 
-function stickDisplays() {
+function stickDisplays() { //This code was lifted from the Mazerunner game example linked from the rovercam guthub page. This is used to create the static elements on the screen. 
   camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
   ortho(-width / 2, width / 2, -height / 2, height / 2, 0, 1000);
 }
@@ -727,7 +727,7 @@ function keyPressed() {
     fullscreen(true);
   }
 
-  if (levelCounter === 4) {
+  if (levelCounter === 4) { //This checks if the player is in the fifth stage and plays the videos inside the collectible items which are then displayed in the inventory.
     graveyard.loop();
     water.loop();
   }
@@ -742,7 +742,7 @@ function keyPressed() {
   }
 }
 
-function keyReleased() {
+function keyReleased() { //Stops the footsteps noise if the player is not pressing any of the wasd keys.
   if (keyCode === 87 && keyIsDown(65) === false && keyIsDown(83) === false && keyIsDown(68) === false) {
     footsteps.stop();
   }

@@ -1,4 +1,8 @@
-//Controls the level progression system
+/*
+This function controls the level progression system. Based on checkign the value of the levelCounter variable, different functions are executed in a linear order to progress through the game.
+
+
+*/
 function changeLevels() {
     if (levelCounter === -2) {
         push();
@@ -210,7 +214,7 @@ function changeLevels() {
             waterItem.playerCollect();
         }
 
-        drawBottomText(scriptsArr[levelCounter], arm);
+        drawBottomText(scriptsArr[levelCounter], juliette);
         drawWeapon(arm);
     }
 
