@@ -229,5 +229,8 @@ function changeLevels() {
         translate(200, 200, 0);
         image(sky, 0, 0, 500, 500);
         pop();
+        setTimeout(() => {
+            window.location.reload();
+        }, 5000);
     }
 }
