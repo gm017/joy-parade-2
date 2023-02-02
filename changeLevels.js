@@ -216,6 +216,11 @@ function changeLevels() {
 
         drawBottomText(scriptsArr[levelCounter], juliette);
         drawWeapon(arm);
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 240000);
+
     }
 
     if (levelCounter === 5) {
